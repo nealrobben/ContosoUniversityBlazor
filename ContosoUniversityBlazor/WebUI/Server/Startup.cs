@@ -82,6 +82,7 @@ namespace WebUI.Server
             }
 
             app.UseHealthChecks("/health");
+            app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
 
@@ -92,6 +93,10 @@ namespace WebUI.Server
             });
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseIdentityServer();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
