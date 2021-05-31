@@ -29,8 +29,31 @@ namespace WebUI.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddApplication();
+            services.AddInfrastructure(Configuration);
+
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+            services.AddHttpContextAccessor();
+
+            services.AddHealthChecks()
+                .AddDbContextCheck<ApplicationDbContext>();
+
+            services.AddControllersWithViews(options =>
+                options.Filters.Add(new ApiExceptionFilter()));
+
             services.AddRazorPages();
+
+            // Customise default API behaviour
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
+            services.AddOpenApiDocument(configure =>
+            {
+                configure.Title = "ContosoUniversityBlazor API";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
