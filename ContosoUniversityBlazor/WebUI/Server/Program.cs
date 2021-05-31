@@ -1,13 +1,11 @@
-﻿using ContosoUniversityBlazor.Infrastructure.Identity;
-using ContosoUniversityBlazor.Infrastructure.Persistence;
-using ContosoUniversityBlazor.Persistence;
+﻿using ContosoUniversityBlazor.Application.System.Commands.SeedData;
+using MediatR;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebUI.Server
@@ -18,44 +16,26 @@ namespace WebUI.Server
         {
             var host = CreateHostBuilder(args).Build();
 
-            //using (var scope = host.Services.CreateScope())
-            //{
-            //    var services = scope.ServiceProvider;
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
 
-            //    try
-            //    {
-            //        //Old code, remove later
-            //        var context = services.GetRequiredService<ApplicationDbContext>();
+                try
+                {
+                    var context = services.GetRequiredService<ContosoUniversityBlazor.Persistence.SchoolContext>();
 
-            //        if (context.Database.IsSqlServer())
-            //        {
-            //            context.Database.Migrate();
-            //        }
+                    context.Database.EnsureCreated();
 
-            //        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                    var mediator = services.GetRequiredService<IMediator>();
+                    await mediator.Send(new SeedDataCommand(), CancellationToken.None);
+                }
+                catch (Exception ex)
+                {
+                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred while migrating or seeding the database.");
 
-            //        await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager);
-            //        await ApplicationDbContextSeed.SeedSampleDataAsync(context);
-
-            //        //Schoolcontext
-            //        var schoolContext = services.GetRequiredService<SchoolContext>();
-
-            //        if (schoolContext.Database.IsSqlServer())
-            //        {
-            //            schoolContext.Database.Migrate();
-            //        }
-
-            //        await SchoolContextSeed.SeedSampleDataAsync(schoolContext);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-
-            //        logger.LogError(ex, "An error occurred while migrating or seeding the database.");
-
-            //        throw;
-            //    }
-            //}
+                }
+            }
 
             await host.RunAsync();
         }
