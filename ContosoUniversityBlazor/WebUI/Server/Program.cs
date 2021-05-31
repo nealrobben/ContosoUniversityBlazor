@@ -18,44 +18,44 @@ namespace WebUI.Server
         {
             var host = CreateHostBuilder(args).Build();
 
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
+            //using (var scope = host.Services.CreateScope())
+            //{
+            //    var services = scope.ServiceProvider;
 
-                try
-                {
-                    //Old code, remove later
-                    var context = services.GetRequiredService<ApplicationDbContext>();
+            //    try
+            //    {
+            //        //Old code, remove later
+            //        var context = services.GetRequiredService<ApplicationDbContext>();
 
-                    if (context.Database.IsSqlServer())
-                    {
-                        context.Database.Migrate();
-                    }
+            //        if (context.Database.IsSqlServer())
+            //        {
+            //            context.Database.Migrate();
+            //        }
 
-                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+            //        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
-                    await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager);
-                    await ApplicationDbContextSeed.SeedSampleDataAsync(context);
+            //        await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager);
+            //        await ApplicationDbContextSeed.SeedSampleDataAsync(context);
 
-                    //Schoolcontext
-                    var schoolContext = services.GetRequiredService<SchoolContext>();
+            //        //Schoolcontext
+            //        var schoolContext = services.GetRequiredService<SchoolContext>();
 
-                    if (schoolContext.Database.IsSqlServer())
-                    {
-                        schoolContext.Database.Migrate();
-                    }
+            //        if (schoolContext.Database.IsSqlServer())
+            //        {
+            //            schoolContext.Database.Migrate();
+            //        }
 
-                    await SchoolContextSeed.SeedSampleDataAsync(schoolContext);
-                }
-                catch (Exception ex)
-                {
-                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+            //        await SchoolContextSeed.SeedSampleDataAsync(schoolContext);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
-                    logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+            //        logger.LogError(ex, "An error occurred while migrating or seeding the database.");
 
-                    throw;
-                }
-            }
+            //        throw;
+            //    }
+            //}
 
             await host.RunAsync();
         }
