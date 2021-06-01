@@ -50,10 +50,7 @@ namespace WebUI.Server
                 options.SuppressModelStateInvalidFilter = true;
             });
 
-            services.AddOpenApiDocument(configure =>
-            {
-                configure.Title = "ContosoUniversityBlazor API";
-            });
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,10 +74,12 @@ namespace WebUI.Server
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
 
+            //http://localhost:<port>/swagger to view the Swagger UI.
+            //http://localhost:<port>/swagger/v1/swagger.json to view the Swagger specification.
+
+            app.UseOpenApi();
             app.UseSwaggerUi3(settings =>
             {
-                settings.Path = "/api";
-                settings.DocumentPath = "/api/specification.json";
             });
 
             app.UseRouting();
