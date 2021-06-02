@@ -1,15 +1,19 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="sidebar">
-    <NavMenu />
-</div>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <NavMenu />
+    </nav>
+</header>
 
-<div class="main">
-    <div class="top-row px-4">
-        <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-    </div>
-
-    <div class="content px-4">
+<div class="container">
+    <main role="main" class="pb-3">
         @Body
-    </div>
+    </main>
 </div>
+
+<footer class="border-top footer text-muted">
+    <div class="container">
+        &copy; 2020 - Contoso University
+    </div>
+</footer>
