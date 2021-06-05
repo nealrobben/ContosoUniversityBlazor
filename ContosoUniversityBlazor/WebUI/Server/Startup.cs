@@ -10,9 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NSwag;
-using NSwag.Generation.Processors.Security;
-using System.Linq;
+using WebUI.Shared;
 
 namespace WebUI.Server
 {
@@ -31,6 +29,7 @@ namespace WebUI.Server
         {
             services.AddApplication();
             services.AddInfrastructure(Configuration);
+            services.AddShared();
 
             services.AddScoped<ICurrentUserService, CurrentUserService>();
 

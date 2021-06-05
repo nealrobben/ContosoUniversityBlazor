@@ -1,7 +1,67 @@
 ﻿@page "/departments"
+@using WebUI.Shared
+@using WebUI.Shared.Departments.Queries.GetDepartmentsOverview
+@inject HttpClient Http
 
-<h3>Departments</h3>
+<h2>Departments</h2>
+
+<p>
+    <a>Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Budget
+            </th>
+            <th>
+                StartDate
+            </th>
+            <th>
+                AdministratorName
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (departmentsOverview != null)
+        {
+            @foreach (var item in departmentsOverview?.Departments)
+            {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.Budget.ToString("F")
+                    </td>
+                    <td>
+                        @item.StartDate.ToShortDateString()
+                    </td>
+                    <td>
+                        @item.AdministratorName
+                    </td>
+                    <td>
+                        <a>Edit</a> |
+                        <a>Details</a> |
+                        <a>Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
 
 @code {
+    private DepartmentsOverviewVM departmentsOverview;
 
+    protected override async Task OnInitializedAsync()
+    {
+        departmentsOverview = await Http.GetFromJsonAsync<DepartmentsOverviewVM>("/api/departments");
+    }
 }
