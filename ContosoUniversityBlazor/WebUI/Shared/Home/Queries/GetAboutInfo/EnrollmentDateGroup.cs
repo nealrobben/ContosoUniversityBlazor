@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ContosoUniversityBlazor.Application.Home.Queries.GetAboutInfo
+namespace WebUI.Shared.Home.Queries.GetAboutInfo
 {
     public class EnrollmentDateGroup
     {

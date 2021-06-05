@@ -1,7 +1,44 @@
 ﻿@page "/about"
+@using WebUI.Shared
+@using WebUI.Shared.Home.Queries.GetAboutInfo
+@inject HttpClient Http
 
-<h3>About</h3>
+<h2>Student Body Statistics</h2>
+
+<table>
+    <tr>
+        <th>
+            Enrollment Date
+        </th>
+        <th>
+            Students
+        </th>
+    </tr>
+
+    @if(aboutInfo != null)
+    {
+        @foreach (var item in aboutInfo.Items)
+        {
+            <tr>
+                <td>
+                    @item.EnrollmentDate?.ToShortDateString()
+                </td>
+                <td>
+                    @item.StudentCount
+                </td>
+            </tr>
+        }
+    }
+
+</table>
 
 @code {
+
+    private AboutInfoVM aboutInfo;
+
+    protected override async Task OnInitializedAsync()
+    {
+        aboutInfo = await Http.GetFromJsonAsync<AboutInfoVM>("/api/about");
+    }
 
 }

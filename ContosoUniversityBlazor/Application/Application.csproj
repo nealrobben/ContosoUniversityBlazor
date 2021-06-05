@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\WebUI\Shared\WebUI.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

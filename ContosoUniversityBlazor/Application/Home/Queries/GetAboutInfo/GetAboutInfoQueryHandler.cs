@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using WebUI.Shared.Home.Queries.GetAboutInfo;
 
 namespace ContosoUniversityBlazor.Application.Home.Queries.GetAboutInfo
 {
