@@ -1,7 +1,67 @@
 ﻿@page "/courses"
+@using WebUI.Shared
+@using WebUI.Shared.Courses.Queries.GetCoursesOverview
+@inject HttpClient Http
 
-<h3>Courses</h3>
+<h2>Courses</h2>
+
+<p>
+    <a>Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                CourseID
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
+                Credits
+            </th>
+            <th>
+                DepartmentName
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (coursesOverview != null)
+        {
+            @foreach (var item in coursesOverview.Courses)
+            {
+                <tr>
+                    <td>
+                        @item.CourseID
+                    </td>
+                    <td>
+                        @item.Title
+                    </td>
+                    <td>
+                        @item.Credits
+                    </td>
+                    <td>
+                        @item.DepartmentName
+                    </td>
+                    <td>
+                        <a>Edit</a> |
+                        <a>Details</a> |
+                        <a>Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
 
 @code {
+    private CoursesOverviewVM coursesOverview;
 
+    protected override async Task OnInitializedAsync()
+    {
+        coursesOverview = await Http.GetFromJsonAsync<CoursesOverviewVM>("/api/courses");
+    }
 }

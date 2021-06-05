@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
+using WebUI.Shared.Courses.Queries.GetCoursesOverview;
 
 namespace ContosoUniversityBlazor.Application.Courses.Queries.GetCoursesOverview
 {
