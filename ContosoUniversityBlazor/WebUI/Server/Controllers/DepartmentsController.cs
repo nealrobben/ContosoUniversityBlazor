@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ContosoUniversityBlazor.Application.Departments.Queries.GetDepartmentsLookup;
 using ContosoUniversityBlazor.Application.Departments.Commands.UpdateDepartment;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
+using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
 
 namespace ContosoUniversityBlazor.WebUI.Controllers
 {
