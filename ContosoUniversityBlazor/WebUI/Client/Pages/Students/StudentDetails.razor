@@ -1,5 +1,17 @@
-﻿<h3>StudentDetails</h3>
+﻿@page "/students/{id}"
+@using WebUI.Shared
+@using WebUI.Shared.Students.Queries.GetStudentDetails
+@inject HttpClient Http
 
 @code {
 
+    [Parameter]
+    public string id { get; set; }
+
+    private StudentDetailsVM student;
+
+    protected override async Task OnInitializedAsync()
+    {
+        student = await Http.GetFromJsonAsync<StudentDetailsVM>($"/api/students/{id}");
+    }
 }

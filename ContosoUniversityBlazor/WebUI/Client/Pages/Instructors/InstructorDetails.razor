@@ -1,5 +1,17 @@
-﻿<h3>InstructorDetails</h3>
+﻿@page "/instructors/{id}"
+@using WebUI.Shared
+@using WebUI.Shared.Instructors.Queries.GetInstructorDetails
+@inject HttpClient Http
 
 @code {
 
+    [Parameter]
+    public string id { get; set; }
+
+    private InstructorDetailsVM instructor;
+
+    protected override async Task OnInitializedAsync()
+    {
+        instructor = await Http.GetFromJsonAsync<InstructorDetailsVM>($"/api/instructor/{id}");
+    }
 }
