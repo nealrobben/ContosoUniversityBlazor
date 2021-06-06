@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using ContosoUniversityBlazor.Application.Common.Mappings;
 using ContosoUniversityBlazor.Domain.Entities;
+using WebUI.Shared.Common.Mappings;
 
-namespace ContosoUniversityBlazor.Application.Courses.Queries.GetCourseDetails
+namespace WebUI.Shared.Courses.Queries.GetCourseDetails
 {
     public class CourseDetailVM : IMapFrom<Course>
     {

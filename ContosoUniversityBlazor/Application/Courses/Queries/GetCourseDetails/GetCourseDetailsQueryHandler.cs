@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
+using WebUI.Shared.Courses.Queries.GetCourseDetails;
 
 namespace ContosoUniversityBlazor.Application.Courses.Queries.GetCourseDetails
 {

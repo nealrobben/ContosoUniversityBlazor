@@ -1,0 +1,57 @@
+﻿@page "/courses/{id}"
+@using WebUI.Shared
+@using WebUI.Shared.Courses.Queries.GetCourseDetails
+@inject HttpClient Http
+
+<h1>Details</h1>
+
+<div>
+    <h4>Course</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Title
+        </dt>
+        <dd class="col-sm-10">
+            @if (course != null)
+            {
+                @course.Title
+            }
+        </dd>
+        <dt class="col-sm-2">
+            Credits
+        </dt>
+        <dd class="col-sm-10">
+            @if (course != null)
+            {
+                @course.Credits
+            }
+        </dd>
+        <dt class="col-sm-2">
+            DepartmentID
+        </dt>
+        <dd class="col-sm-10">
+            @if (course != null)
+            {
+                @course.DepartmentID
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <a>Edit</a> |
+    <a href="/courses">Back to List</a>
+</div>
+
+@code {
+
+    [Parameter]
+    public string id { get; set; }
+
+    private CourseDetailVM course;
+
+    protected override async Task OnInitializedAsync()
+    {
+        course = await Http.GetFromJsonAsync<CourseDetailVM>($"/api/courses/{id}");
+    }
+}
