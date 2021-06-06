@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
+using WebUI.Shared.Instructors.Queries.GetInstructorDetails;
 
 namespace ContosoUniversityBlazor.Application.Instructors.Queries.GetInstructorDetails
 {

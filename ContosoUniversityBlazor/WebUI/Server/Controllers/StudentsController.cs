@@ -7,6 +7,7 @@ using ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOverview;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using WebUI.Shared.Students.Queries.GetStudentDetails;
 
 namespace ContosoUniversityBlazor.WebUI.Controllers
 {

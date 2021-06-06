@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using ContosoUniversityBlazor.Application.Common.Mappings;
 using ContosoUniversityBlazor.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using WebUI.Shared.Common.Mappings;
 
-namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentDetails
+namespace WebUI.Shared.Students.Queries.GetStudentDetails
 {
     public class StudentDetailsVM : IMapFrom<Student>
     {

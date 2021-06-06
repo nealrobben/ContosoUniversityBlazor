@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using WebUI.Shared.Instructors.Queries.GetInstructorDetails;
 
 namespace ContosoUniversityBlazor.Application.Instructors.Queries.GetInstructorDetails
 {

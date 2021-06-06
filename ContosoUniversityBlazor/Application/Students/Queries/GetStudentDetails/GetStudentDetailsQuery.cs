@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using WebUI.Shared.Students.Queries.GetStudentDetails;
 
 namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentDetails
 {

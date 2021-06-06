@@ -7,6 +7,7 @@ using ContosoUniversityCQRS.Application.Instructors.Queries.GetInstructorsOvervi
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using WebUI.Shared.Instructors.Queries.GetInstructorDetails;
 
 namespace ContosoUniversityBlazor.WebUI.Controllers
 {
