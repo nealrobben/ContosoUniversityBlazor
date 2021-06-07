@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebUI.Shared.Instructors.Queries.GetInstructorDetails;
+using WebUI.Shared.Instructors.Queries.GetInstructorsOverview;
 
 namespace ContosoUniversityBlazor.WebUI.Controllers
 {

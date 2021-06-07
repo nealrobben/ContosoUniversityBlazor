@@ -1,7 +1,6 @@
-﻿using ContosoUniversityBlazor.Application.Instructors.Queries.GetInstructorsOverview;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace ContosoUniversityCQRS.Application.Instructors.Queries.GetInstructorsOverview
+namespace WebUI.Shared.Instructors.Queries.GetInstructorsOverview
 {
     public class InstructorsOverviewVM
     {

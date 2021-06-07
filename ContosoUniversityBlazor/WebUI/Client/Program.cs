@@ -18,6 +18,8 @@ namespace WebUI.Client
 
             builder.Services.AddScoped<DepartmentService>();
             builder.Services.AddScoped<CourseService>();
+            builder.Services.AddScoped<InstructorService>();
+            builder.Services.AddScoped<StudentService>();
 
             await builder.Build().RunAsync();
         }

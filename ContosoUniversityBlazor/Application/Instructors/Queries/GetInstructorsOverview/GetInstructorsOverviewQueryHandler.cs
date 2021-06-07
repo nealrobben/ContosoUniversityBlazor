@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using ContosoUniversityBlazor.Application.Common.Interfaces;
-using ContosoUniversityBlazor.Domain.Entities;
 using ContosoUniversityCQRS.Application.Instructors.Queries.GetInstructorsOverview;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using WebUI.Shared.Instructors.Queries.GetInstructorsOverview;
 
 namespace ContosoUniversityBlazor.Application.Instructors.Queries.GetInstructorsOverview
 {
