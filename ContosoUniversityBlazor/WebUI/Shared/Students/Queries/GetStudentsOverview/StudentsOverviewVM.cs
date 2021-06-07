@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsOverview
+namespace WebUI.Shared.Students.Queries.GetStudentsOverview
 {
     public class StudentsOverviewVM
     {
