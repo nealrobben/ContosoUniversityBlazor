@@ -1,7 +1,6 @@
 ﻿@page "/departments"
-@using WebUI.Shared
 @using WebUI.Shared.Departments.Queries.GetDepartmentsOverview
-@inject HttpClient Http
+@inject DepartmentService DepartmentService
 
 <h2>Departments</h2>
 
@@ -62,6 +61,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        departmentsOverview = await Http.GetFromJsonAsync<DepartmentsOverviewVM>("/api/departments");
+        departmentsOverview = await DepartmentService.GetAllAsync();
     }
 }
