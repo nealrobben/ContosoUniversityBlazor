@@ -1,7 +1,7 @@
 ﻿@page "/departments/{id}"
 @using WebUI.Shared
 @using WebUI.Shared.Departments.Queries.GetDepartmentDetails
-@inject HttpClient Http
+@inject DepartmentService DepartmentService
 
 <h1>Details</h1>
 
@@ -13,7 +13,7 @@
             Name
         </dt>
         <dd class="col-sm-10">
-            @if(department != null)
+            @if (department != null)
             {
                 @department.Name
             }
@@ -61,6 +61,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        department = await Http.GetFromJsonAsync<DepartmentDetailVM>($"/api/departments/{id}");
+        department = await DepartmentService.GetAsync(id);
     }
 }
