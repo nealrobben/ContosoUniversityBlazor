@@ -1,7 +1,6 @@
 ﻿@page "/courses/{id}"
-@using WebUI.Shared
 @using WebUI.Shared.Courses.Queries.GetCourseDetails
-@inject HttpClient Http
+@inject CourseService CourseService
 
 <h1>Details</h1>
 
@@ -52,6 +51,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        course = await Http.GetFromJsonAsync<CourseDetailVM>($"/api/courses/{id}");
+        course = await CourseService.GetAsync(id);
     }
 }

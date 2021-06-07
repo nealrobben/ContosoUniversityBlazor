@@ -6,13 +6,10 @@ using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 
 namespace WebUI.Client.Services
 {
-    public class DepartmentService
+    public class DepartmentService : ServiceBase
     {
-        private HttpClient _http;
-
-        public DepartmentService(HttpClient http)
+        public DepartmentService(HttpClient http) : base(http)
         {
-            _http = http;
         }
 
         public async Task<DepartmentsOverviewVM> GetAllAsync()
