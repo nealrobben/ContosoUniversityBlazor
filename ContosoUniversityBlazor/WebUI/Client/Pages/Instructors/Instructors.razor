@@ -1,7 +1,75 @@
 ﻿@page "/instructors"
+@using WebUI.Shared.Instructors.Queries.GetInstructorsOverview
+@inject InstructorService InstructorService
 
-<h3>Instructors</h3>
+<h2>Instructors</h2>
+
+<p>
+    <a>Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Hire Date</th>
+            <th>Office</th>
+            <th>Courses</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (instructorsOverview != null)
+        {
+            @foreach (var item in instructorsOverview.Instructors)
+            {
+                //string selectedRow = "";
+                //if (item.InstructorID == instructorsOverview.SelectedInstructorID)
+                //{
+                //    selectedRow = "bg-success";
+                //}
+                <tr>
+                    <td>
+                        @item.LastName
+                    </td>
+                    <td>
+                        @item.FirstName
+                    </td>
+                    <td>
+                        @item.HireDate.ToShortDateString()
+                    </td>
+                    <td>
+                        @item.OfficeLocation
+                    </td>
+                    <td>
+                        @{
+                            foreach (var course in item.CourseAssignments)
+                            {
+                                @course.CourseID @:  @course.CourseTitle <br />
+                            }
+                        }
+                    </td>
+                    <td>
+                        <a>Select</a> |
+                        <a>Edit</a> |
+                        <a href=@($"/instructors/{item.InstructorID}")>Details</a> |
+                        <a>Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
 
 @code {
 
+    private InstructorsOverviewVM instructorsOverview;
+
+    protected override async Task OnInitializedAsync()
+    {
+        instructorsOverview = await InstructorService.GetAllAsync();
+    }
 }
