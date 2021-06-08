@@ -1,7 +1,46 @@
 ﻿@page "/instructors/{id}"
-@using WebUI.Shared
 @using WebUI.Shared.Instructors.Queries.GetInstructorDetails
-@inject HttpClient Http
+@inject InstructorService InstructorService
+
+<h1>Details</h1>
+
+<div>
+    <h4>Instructor</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            LastName
+        </dt>
+        <dd class="col-sm-10">
+            @if (instructor != null)
+            {
+                @instructor.LastName
+            }
+        </dd>
+        <dt class="col-sm-2">
+            FirstName
+        </dt>
+        <dd class="col-sm-10">
+            @if (instructor != null)
+            {
+                @instructor.FirstName
+            }
+        </dd>
+        <dt class="col-sm-2">
+            HireDate
+        </dt>
+        <dd class="col-sm-10">
+            @if (instructor != null)
+            {
+                @instructor.HireDate.ToShortDateString()
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <a>Edit</a> |
+    <a href="/instructors">Back to List</a>
+</div>
 
 @code {
 
@@ -12,6 +51,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        instructor = await Http.GetFromJsonAsync<InstructorDetailsVM>($"/api/instructor/{id}");
+        instructor = await InstructorService.GetAsync(id);
     }
 }
