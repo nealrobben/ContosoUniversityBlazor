@@ -1,7 +1,60 @@
 ﻿@page "/students"
+@using WebUI.Shared.Students.Queries.GetStudentsOverview
+@inject StudentService StudentService
 
-<h3>Students</h3>
+<h1>Index</h1>
+
+<p>
+    <a>Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a>Last Name</a>
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                <a>Enrollment Date</a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (studentsOverview != null)
+        {
+            @foreach (var student in studentsOverview.Students)
+            {
+                <tr>
+                    <td>
+                        @student.LastName
+                    </td>
+                    <td>
+                        @student.FirstName
+                    </td>
+                    <td>
+                        @student.EnrollmentDate.ToShortDateString()
+                    </td>
+                    <td>
+                        <a>Edit</a> |
+                        <a href=@($"/students/{student.StudentID}")>Details</a> |
+                        <a>Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
 
 @code {
 
+    private StudentsOverviewVM studentsOverview;
+
+    protected override async Task OnInitializedAsync()
+    {
+        studentsOverview = await StudentService.GetAllAsync();
+    }
 }
