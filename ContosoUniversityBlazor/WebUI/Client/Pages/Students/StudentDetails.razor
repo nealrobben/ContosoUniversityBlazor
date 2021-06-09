@@ -1,7 +1,72 @@
 ﻿@page "/students/{id}"
-@using WebUI.Shared
 @using WebUI.Shared.Students.Queries.GetStudentDetails
-@inject HttpClient Http
+@inject StudentService StudentService
+
+<h1>Details</h1>
+
+<div>
+    <h4>Student</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            LastName
+        </dt>
+        <dd class="col-sm-10">
+            @if (student != null)
+            {
+                @student.LastName
+            }
+        </dd>
+        <dt class="col-sm-2">
+            FirstName
+        </dt>
+        <dd class="col-sm-10">
+            @if (student != null)
+            {
+                @student.FirstName
+            }
+        </dd>
+        <dt class="col-sm-2">
+            EnrollmentDate
+        </dt>
+        <dd class="col-sm-10">
+            @if (student != null)
+            {
+                @student.EnrollmentDate.ToShortDateString()
+            }
+        </dd>
+        <dt class="col-sm-2">
+            Enrollments
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>Course Title</th>
+                    <th>Grade</th>
+                </tr>
+                @if (student != null)
+                {
+                    @foreach (var item in student.Enrollments)
+                    {
+                        <tr>
+                            <td>
+                                @item.CourseTitle
+                            </td>
+                            <td>
+                                @item.Grade
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <a>Edit</a> |
+    <a href="/students">Back to List</a>
+</div>
 
 @code {
 
@@ -12,6 +77,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        student = await Http.GetFromJsonAsync<StudentDetailsVM>($"/api/students/{id}");
+        student = await StudentService.GetAsync(id);
     }
 }

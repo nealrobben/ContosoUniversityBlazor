@@ -4,7 +4,7 @@ namespace WebUI.Shared.Students.Queries.GetStudentsOverview
 {
     public class StudentsOverviewVM
     {
-        public IList<StudentOverviewVM> Students { get; }
+        public IList<StudentOverviewVM> Students { get; set; }
 
         public string CurrentSort { get; set; }
 
