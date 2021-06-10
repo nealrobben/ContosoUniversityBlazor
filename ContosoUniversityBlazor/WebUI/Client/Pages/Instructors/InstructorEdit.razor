@@ -1,0 +1,15 @@
+﻿@page "/instructors/edit/{id}"
+@inject InstructorService InstructorService
+
+<h3>InstructorEdit</h3>
+
+<div>
+    <a>Edit</a> |
+    <a href="/instructors">Back to List</a>
+</div>
+
+@code {
+
+    [Parameter]
+    public string id { get; set; }
+}

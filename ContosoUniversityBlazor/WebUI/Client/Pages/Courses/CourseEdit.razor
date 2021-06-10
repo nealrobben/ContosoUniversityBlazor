@@ -1,0 +1,15 @@
+﻿@page "/courses/edit/{id}"
+@inject CourseService CourseService
+
+<h3>CourseEdit</h3>
+
+<div>
+    <a>Edit</a> |
+    <a href="/courses">Back to List</a>
+</div>
+
+@code {
+
+    [Parameter]
+    public string id { get; set; }
+}

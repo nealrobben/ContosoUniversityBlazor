@@ -1,0 +1,15 @@
+﻿@page "/departments/edit/{id}"
+@inject DepartmentService DepartmentService
+
+<h3>DepartmentEdit</h3>
+
+<div>
+    <a>Edit</a> |
+    <a href="/departments">Back to List</a>
+</div>
+
+@code {
+
+    [Parameter]
+    public string id { get; set; }
+}

@@ -1,0 +1,15 @@
+﻿@page "/students/edit/{id}"
+@inject StudentService StudentService
+
+<h3>StudentEdit</h3>
+
+<div>
+    <a>Edit</a> |
+    <a href="/students">Back to List</a>
+</div>
+
+@code {
+
+    [Parameter]
+    public string id { get; set; }
+}

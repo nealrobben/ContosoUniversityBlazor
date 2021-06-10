@@ -39,7 +39,7 @@
                         @student.EnrollmentDate.ToShortDateString()
                     </td>
                     <td>
-                        <a>Edit</a> |
+                        <a href=@($"/students/edit/{student.StudentID}")>Edit</a> |
                         <a href=@($"/students/{student.StudentID}")>Details</a> |
                         <a>Delete</a>
                     </td>
