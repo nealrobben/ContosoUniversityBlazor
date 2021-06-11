@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System;
 
-namespace ContosoUniversityBlazor.Application.Students.Commands.UpdateStudent
+namespace WebUI.Shared.Students.Commands.UpdateStudent
 {
     public class UpdateStudentCommand : IRequest
     {

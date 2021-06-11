@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using WebUI.Shared.Students.Commands.CreateStudent;
+using WebUI.Shared.Students.Commands.UpdateStudent;
 using WebUI.Shared.Students.Queries.GetStudentDetails;
 using WebUI.Shared.Students.Queries.GetStudentsOverview;
 
@@ -31,6 +32,11 @@ namespace WebUI.Client.Services
         public async Task<HttpResponseMessage> CreateAsync(CreateStudentCommand createCommand)
         {
             return await _http.PostAsJsonAsync($"/api/students", createCommand);
+        }
+
+        public async Task<HttpResponseMessage> UpdateAsync(UpdateStudentCommand createCommand)
+        {
+            return await _http.PutAsJsonAsync($"/api/students", createCommand);
         }
     }
 }

@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
+using WebUI.Shared.Students.Commands.UpdateStudent;
 
 namespace ContosoUniversityBlazor.Application.Students.Commands.UpdateStudent
 {
