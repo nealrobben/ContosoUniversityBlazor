@@ -9,6 +9,7 @@ using ContosoUniversityBlazor.Application.Departments.Queries.GetDepartmentsLook
 using ContosoUniversityBlazor.Application.Departments.Commands.UpdateDepartment;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
+using WebUI.Shared.Departments.Commands.CreateDepartment;
 
 namespace ContosoUniversityBlazor.WebUI.Controllers
 {

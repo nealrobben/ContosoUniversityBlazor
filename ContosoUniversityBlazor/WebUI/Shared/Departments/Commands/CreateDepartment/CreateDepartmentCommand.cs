@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System;
 
-namespace ContosoUniversityBlazor.Application.Departments.Commands.CreateDepartment
+namespace WebUI.Shared.Departments.Commands.CreateDepartment
 {
     public class CreateDepartmentCommand : IRequest
     {

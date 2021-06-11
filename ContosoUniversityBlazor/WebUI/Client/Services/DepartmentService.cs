@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using WebUI.Shared.Departments.Commands.CreateDepartment;
 using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 
@@ -25,6 +26,11 @@ namespace WebUI.Client.Services
         public async Task<HttpResponseMessage> DeleteAsync(string id)
         {
             return await _http.DeleteAsync($"/api/departments/{id}");
+        }
+
+        public async Task<HttpResponseMessage> CreateAsync(CreateDepartmentCommand createCommand)
+        {
+            return await _http.PostAsJsonAsync<CreateDepartmentCommand>($"/api/departments", createCommand);
         }
     }
 }
