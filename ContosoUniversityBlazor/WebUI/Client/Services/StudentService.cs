@@ -21,5 +21,10 @@ namespace WebUI.Client.Services
         {
             return await _http.GetFromJsonAsync<StudentDetailsVM>($"/api/students/{id}");
         }
+
+        public async Task<HttpResponseMessage> DeleteAsync(string id)
+        {
+            return await _http.DeleteAsync($"/api/students/{id}");
+        }
     }
 }
