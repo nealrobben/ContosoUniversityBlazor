@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using WebUI.Shared.Courses.Commands.CreateCourse;
 using WebUI.Shared.Courses.Queries.GetCourseDetails;
 using WebUI.Shared.Courses.Queries.GetCoursesOverview;
 
@@ -25,6 +26,11 @@ namespace WebUI.Client.Services
         public async Task<HttpResponseMessage> DeleteAsync(string id)
         {
             return await _http.DeleteAsync($"/api/courses/{id}");
+        }
+
+        public async Task<HttpResponseMessage> CreateAsync(CreateCourseCommand createCommand)
+        {
+            return await _http.PostAsJsonAsync($"/api/courses", createCommand);
         }
     }
 }

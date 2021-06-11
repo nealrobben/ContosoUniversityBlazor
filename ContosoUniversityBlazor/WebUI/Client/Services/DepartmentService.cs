@@ -30,7 +30,7 @@ namespace WebUI.Client.Services
 
         public async Task<HttpResponseMessage> CreateAsync(CreateDepartmentCommand createCommand)
         {
-            return await _http.PostAsJsonAsync<CreateDepartmentCommand>($"/api/departments", createCommand);
+            return await _http.PostAsJsonAsync($"/api/departments", createCommand);
         }
     }
 }
