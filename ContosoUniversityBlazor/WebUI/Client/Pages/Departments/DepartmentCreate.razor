@@ -1,7 +1,24 @@
 ﻿@page "/departments/create"
+@using WebUI.Shared.Departments.Commands.CreateDepartment
 @inject DepartmentService DepartmentService
 
 <h3>DepartmentCreate</h3>
+
+<EditForm Model=@createDepartmentCommand OnSubmit=@FormSubmitted>
+    <div class="form-group">
+        <label for="Name">Name</label>
+        <InputText @bind-Value=createDepartmentCommand.Name class="form-control" id="Name" />
+    </div>
+    <div class="form-group">
+        <label for="Budget">Budget</label>
+        <InputNumber @bind-Value=createDepartmentCommand.Budget class="form-control" id="Budget" />
+    </div>
+    <div class="form-group">
+        <label for="StartDate">StartDate</label>
+        <InputDate @bind-Value=createDepartmentCommand.StartDate class="form-control" id="StartDate" />
+    </div>
+    <input type="submit" value="Submit" class="btn btn-primary" />
+</EditForm>
 
 <div>
     <a href="/departments">Back to List</a>
@@ -9,4 +26,10 @@
 
 @code {
 
+    CreateDepartmentCommand createDepartmentCommand = new CreateDepartmentCommand() { StartDate = DateTime.UtcNow.Date };
+
+    private async Task FormSubmitted()
+    {
+        //await DepartmentService.CreateAsync(createDepartmentCommand);
+    }
 }
