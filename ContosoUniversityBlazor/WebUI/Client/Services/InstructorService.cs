@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using WebUI.Shared.Instructors.Commands.CreateInstructor;
+using WebUI.Shared.Instructors.Commands.UpdateInstructor;
 using WebUI.Shared.Instructors.Queries.GetInstructorDetails;
 using WebUI.Shared.Instructors.Queries.GetInstructorsOverview;
 
@@ -31,6 +32,11 @@ namespace WebUI.Client.Services
         public async Task<HttpResponseMessage> CreateAsync(CreateInstructorCommand createCommand)
         {
             return await _http.PostAsJsonAsync($"/api/instructors", createCommand);
+        }
+
+        public async Task<HttpResponseMessage> UpdateAsync(UpdateInstructorCommand createCommand)
+        {
+            return await _http.PutAsJsonAsync($"/api/instructors", createCommand);
         }
     }
 }
