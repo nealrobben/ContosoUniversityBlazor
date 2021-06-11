@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System;
 
-namespace ContosoUniversityBlazor.Application.Instructors.Commands.CreateInstructor
+namespace WebUI.Shared.Instructors.Commands.CreateInstructor
 {
     public class CreateInstructorCommand : IRequest
     {

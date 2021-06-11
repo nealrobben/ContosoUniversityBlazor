@@ -3,6 +3,7 @@ using ContosoUniversityBlazor.Domain.Entities;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using WebUI.Shared.Instructors.Commands.CreateInstructor;
 
 namespace ContosoUniversityBlazor.Application.Instructors.Commands.CreateInstructor
 {
