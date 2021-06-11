@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
+using WebUI.Shared.Courses.Commands.UpdateCourse;
 
 namespace ContosoUniversityBlazor.Application.Courses.Commands.UpdateCourse
 {

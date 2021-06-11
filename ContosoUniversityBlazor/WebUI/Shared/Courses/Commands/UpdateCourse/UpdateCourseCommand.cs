@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace ContosoUniversityBlazor.Application.Courses.Commands.UpdateCourse
+namespace WebUI.Shared.Courses.Commands.UpdateCourse
 {
     public class UpdateCourseCommand : IRequest
     {

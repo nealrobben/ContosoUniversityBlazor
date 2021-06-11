@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using WebUI.Shared.Courses.Commands.CreateCourse;
+using WebUI.Shared.Courses.Commands.UpdateCourse;
 using WebUI.Shared.Courses.Queries.GetCourseDetails;
 using WebUI.Shared.Courses.Queries.GetCoursesOverview;
 
@@ -31,6 +32,11 @@ namespace WebUI.Client.Services
         public async Task<HttpResponseMessage> CreateAsync(CreateCourseCommand createCommand)
         {
             return await _http.PostAsJsonAsync($"/api/courses", createCommand);
+        }
+
+        public async Task<HttpResponseMessage> UpdateAsync(UpdateCourseCommand createCommand)
+        {
+            return await _http.PutAsJsonAsync($"/api/courses", createCommand);
         }
     }
 }
