@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
+using WebUI.Shared.Departments.Commands.UpdateDepartment;
 
 namespace ContosoUniversityBlazor.Application.Departments.Commands.UpdateDepartment
 {
