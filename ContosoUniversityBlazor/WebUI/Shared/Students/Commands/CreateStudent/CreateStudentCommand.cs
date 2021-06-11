@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System;
 
-namespace ContosoUniversityBlazor.Application.Students.Commands.CreateStudent
+namespace WebUI.Shared.Students.Commands.CreateStudent
 {
     public class CreateStudentCommand : IRequest
     {
