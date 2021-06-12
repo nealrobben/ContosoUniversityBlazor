@@ -1,4 +1,5 @@
 ﻿@page "/courses/create"
+@using WebUI.Shared.Courses.Commands.CreateCourse
 @inject CourseService CourseService
 
 <h3>CourseCreate</h3>
@@ -9,4 +10,10 @@
 
 @code {
 
+    CreateCourseCommand createCourseCommand = new CreateCourseCommand();
+
+    private async Task FormSubmitted()
+    {
+        //await CourseService.CreateAsync(createCourseCommand);
+    }
 }

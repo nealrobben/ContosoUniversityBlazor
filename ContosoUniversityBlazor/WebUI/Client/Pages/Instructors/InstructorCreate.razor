@@ -1,4 +1,5 @@
 ﻿@page "/instructors/create"
+@using WebUI.Shared.Instructors.Commands.CreateInstructor
 @inject InstructorService InstructorService
 
 <h3>InstructorCreate</h3>
@@ -9,4 +10,10 @@
 
 @code {
 
+    CreateInstructorCommand createInstructorCommand = new CreateInstructorCommand() { HireDate = DateTime.UtcNow.Date };
+
+    private async Task FormSubmitted()
+    {
+        //await InstructorService.CreateAsync(createInstructorCommand);
+    }
 }

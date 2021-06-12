@@ -1,4 +1,5 @@
 ﻿@page "/students/create"
+@using WebUI.Shared.Students.Commands.CreateStudent
 @inject StudentService StudentService
 
 <h3>StudentCreate</h3>
@@ -9,4 +10,10 @@
 
 @code {
 
+    CreateStudentCommand createStudentCommand = new CreateStudentCommand();
+
+    private async Task FormSubmitted()
+    {
+        //await StudentService.CreateAsync(createStudentCommand);
+    }
 }
