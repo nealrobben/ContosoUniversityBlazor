@@ -1,24 +1,38 @@
 ﻿@page "/departments/create"
 @using WebUI.Shared.Departments.Commands.CreateDepartment
 @inject DepartmentService DepartmentService
+@inject InstructorService InstructorService
 
-<h3>DepartmentCreate</h3>
+<h1>Create</h1>
 
-<EditForm Model=@createDepartmentCommand OnSubmit=@FormSubmitted>
-    <div class="form-group">
-        <label for="Name">Name</label>
-        <InputText @bind-Value=createDepartmentCommand.Name class="form-control" id="Name" />
+<h4>Department</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <EditForm Model=@createDepartmentCommand OnSubmit=@FormSubmitted>
+            <div class="form-group">
+                <label for="Name">Name</label>
+                <InputText @bind-Value=createDepartmentCommand.Name class="form-control" id="Name" />
+            </div>
+            <div class="form-group">
+                <label for="Budget">Budget</label>
+                <InputNumber @bind-Value=createDepartmentCommand.Budget class="form-control" id="Budget" />
+            </div>
+            <div class="form-group">
+                <label for="StartDate">StartDate</label>
+                <InputDate @bind-Value=createDepartmentCommand.StartDate class="form-control" id="StartDate" />
+            </div>
+            <div class="form-group">
+                <label for="InstructorID">InstructorID</label>
+                <InputSelect @bind-Value=createDepartmentCommand.InstructorID class="form-control" id="InstructorID">
+                    <option value="Exploration">Exploration</option>
+                </InputSelect>
+            </div>
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        </EditForm>
     </div>
-    <div class="form-group">
-        <label for="Budget">Budget</label>
-        <InputNumber @bind-Value=createDepartmentCommand.Budget class="form-control" id="Budget" />
-    </div>
-    <div class="form-group">
-        <label for="StartDate">StartDate</label>
-        <InputDate @bind-Value=createDepartmentCommand.StartDate class="form-control" id="StartDate" />
-    </div>
-    <input type="submit" value="Submit" class="btn btn-primary" />
-</EditForm>
+</div>
 
 <div>
     <a href="/departments">Back to List</a>
@@ -27,6 +41,8 @@
 @code {
 
     CreateDepartmentCommand createDepartmentCommand = new CreateDepartmentCommand() { StartDate = DateTime.UtcNow.Date };
+
+    //TODO: on load get instructors
 
     private async Task FormSubmitted()
     {

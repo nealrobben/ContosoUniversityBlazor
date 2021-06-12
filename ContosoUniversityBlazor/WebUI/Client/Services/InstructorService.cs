@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using WebUI.Shared.Instructors.Commands.CreateInstructor;
 using WebUI.Shared.Instructors.Commands.UpdateInstructor;
 using WebUI.Shared.Instructors.Queries.GetInstructorDetails;
+using WebUI.Shared.Instructors.Queries.GetInstructorsLookup;
 using WebUI.Shared.Instructors.Queries.GetInstructorsOverview;
 
 namespace WebUI.Client.Services
@@ -37,6 +38,11 @@ namespace WebUI.Client.Services
         public async Task<HttpResponseMessage> UpdateAsync(UpdateInstructorCommand createCommand)
         {
             return await _http.PutAsJsonAsync($"/api/instructors", createCommand);
+        }
+
+        public async Task<InstructorsLookupVM> GetLookup()
+        {
+            return await _http.GetFromJsonAsync<InstructorsLookupVM>("/api/instructors/lookup");
         }
     }
 }

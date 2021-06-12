@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using ContosoUniversityBlazor.Domain.Entities;
-using ContosoUniversityBlazor.Application.Common.Mappings;
+using WebUI.Shared.Common.Mappings;
 
-namespace ContosoUniversityBlazor.Application.Instructors.Queries.GetInstructorsLookup
+namespace WebUI.Shared.Instructors.Queries.GetInstructorsLookup
 {
     public class InstructorLookupVM : IMapFrom<Instructor>
     {

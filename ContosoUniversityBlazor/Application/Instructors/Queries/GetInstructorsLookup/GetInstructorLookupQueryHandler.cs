@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using WebUI.Shared.Instructors.Queries.GetInstructorsLookup;
 
 namespace ContosoUniversityCQRS.Application.Instructors.Queries.GetInstructorsLookup
 {

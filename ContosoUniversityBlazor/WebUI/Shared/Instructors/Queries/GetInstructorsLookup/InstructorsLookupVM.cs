@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ContosoUniversityBlazor.Application.Instructors.Queries.GetInstructorsLookup
+namespace WebUI.Shared.Instructors.Queries.GetInstructorsLookup
 {
     public class InstructorsLookupVM
     {

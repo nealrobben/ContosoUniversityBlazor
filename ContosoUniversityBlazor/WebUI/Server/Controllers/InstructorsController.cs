@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using WebUI.Shared.Instructors.Commands.CreateInstructor;
 using WebUI.Shared.Instructors.Commands.UpdateInstructor;
 using WebUI.Shared.Instructors.Queries.GetInstructorDetails;
+using WebUI.Shared.Instructors.Queries.GetInstructorsLookup;
 using WebUI.Shared.Instructors.Queries.GetInstructorsOverview;
 
 namespace ContosoUniversityBlazor.WebUI.Controllers
