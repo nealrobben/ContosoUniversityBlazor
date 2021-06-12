@@ -26,7 +26,7 @@
             <div class="form-group">
                 <label for="InstructorID">InstructorID</label>
                 <InputSelect @bind-Value=createDepartmentCommand.InstructorID class="form-control" id="InstructorID">
-                    <option value="Exploration">Exploration</option>
+                    <option value="Exploration">Select instructor...</option>
                 </InputSelect>
             </div>
             <input type="submit" value="Submit" class="btn btn-primary" />
@@ -42,7 +42,10 @@
 
     CreateDepartmentCommand createDepartmentCommand = new CreateDepartmentCommand() { StartDate = DateTime.UtcNow.Date };
 
-    //TODO: on load get instructors
+    protected override async Task OnInitializedAsync()
+    {
+        //TODO: on load get instructors        
+    }
 
     private async Task FormSubmitted()
     {
