@@ -3,6 +3,7 @@
 @using WebUI.Shared.Instructors.Queries.GetInstructorsLookup
 @inject DepartmentService DepartmentService
 @inject InstructorService InstructorService
+@inject NavigationManager NavManager
 
 <h1>Create</h1>
 
@@ -12,17 +13,21 @@
 <div class="row">
     <div class="col-md-4">
         <EditForm Model=@createDepartmentCommand OnSubmit=@FormSubmitted>
+            <DataAnnotationsValidator />
             <div class="form-group">
                 <label for="Name">Name</label>
                 <InputText @bind-Value=createDepartmentCommand.Name class="form-control" id="Name" />
+                <ValidationMessage For="() => createDepartmentCommand.Name" />
             </div>
             <div class="form-group">
                 <label for="Budget">Budget</label>
                 <InputNumber @bind-Value=createDepartmentCommand.Budget class="form-control" id="Budget" />
+                <ValidationMessage For="() => createDepartmentCommand.Budget" />
             </div>
             <div class="form-group">
                 <label for="StartDate">StartDate</label>
                 <InputDate @bind-Value=createDepartmentCommand.StartDate class="form-control" id="StartDate" />
+                <ValidationMessage For="() => createDepartmentCommand.StartDate" />
             </div>
             <div class="form-group">
                 <label for="InstructorID">InstructorID</label>
@@ -35,6 +40,7 @@
                         }
                     }
                 </CustomInputSelect>
+                <ValidationMessage For="() => createDepartmentCommand.InstructorID" />
             </div>
             <input type="submit" value="Submit" class="btn btn-primary" />
         </EditForm>
@@ -56,8 +62,18 @@
         instructorsLookup = await InstructorService.GetLookupAsync();
     }
 
-    private async Task FormSubmitted()
+    private async Task FormSubmitted(EditContext editContext)
     {
-        //await DepartmentService.CreateAsync(createDepartmentCommand);
+        bool formIsValid = editContext.Validate();
+
+        if (formIsValid)
+        {
+            var result = await DepartmentService.CreateAsync(createDepartmentCommand);
+
+            if (result.IsSuccessStatusCode)
+            {
+                NavManager.NavigateTo("/departments");
+            }
+        }
     }
 }
