@@ -60,6 +60,7 @@
     protected override async Task OnInitializedAsync()
     {
         instructorsLookup = await InstructorService.GetLookupAsync();
+        createDepartmentCommand.InstructorID = instructorsLookup.Instructors.First().ID;
     }
 
     private async Task FormSubmitted(EditContext editContext)
