@@ -40,7 +40,7 @@ namespace WebUI.Client.Services
             return await _http.PutAsJsonAsync($"/api/instructors", createCommand);
         }
 
-        public async Task<InstructorsLookupVM> GetLookup()
+        public async Task<InstructorsLookupVM> GetLookupAsync()
         {
             return await _http.GetFromJsonAsync<InstructorsLookupVM>("/api/instructors/lookup");
         }

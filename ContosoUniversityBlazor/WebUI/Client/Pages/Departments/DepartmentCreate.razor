@@ -1,5 +1,6 @@
 ﻿@page "/departments/create"
 @using WebUI.Shared.Departments.Commands.CreateDepartment
+@using WebUI.Shared.Instructors.Queries.GetInstructorsLookup
 @inject DepartmentService DepartmentService
 @inject InstructorService InstructorService
 
@@ -25,9 +26,15 @@
             </div>
             <div class="form-group">
                 <label for="InstructorID">InstructorID</label>
-                <InputSelect @bind-Value=createDepartmentCommand.InstructorID class="form-control" id="InstructorID">
-                    <option value="Exploration">Select instructor...</option>
-                </InputSelect>
+                <CustomInputSelect @bind-Value=createDepartmentCommand.InstructorID class="form-control" id="InstructorID">
+                    @if (instructorsLookup != null)
+                    {
+                        @foreach (var instructor in instructorsLookup.Instructors)
+                        {
+                            <option value="@instructor.ID">@instructor.FullName</option>
+                        }
+                    }
+                </CustomInputSelect>
             </div>
             <input type="submit" value="Submit" class="btn btn-primary" />
         </EditForm>
@@ -42,9 +49,11 @@
 
     CreateDepartmentCommand createDepartmentCommand = new CreateDepartmentCommand() { StartDate = DateTime.UtcNow.Date };
 
+    private InstructorsLookupVM instructorsLookup;
+
     protected override async Task OnInitializedAsync()
     {
-        //TODO: on load get instructors        
+        instructorsLookup = await InstructorService.GetLookupAsync();
     }
 
     private async Task FormSubmitted()
