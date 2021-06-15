@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using WebUI.Shared.Departments.Queries.GetDepartmentsLookup;
 
 namespace ContosoUniversityBlazor.Application.Departments.Queries.GetDepartmentsLookup
 {

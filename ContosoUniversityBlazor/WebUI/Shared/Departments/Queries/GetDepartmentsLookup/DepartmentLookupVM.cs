@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using ContosoUniversityBlazor.Application.Common.Mappings;
 using ContosoUniversityBlazor.Domain.Entities;
+using WebUI.Shared.Common.Mappings;
 
-namespace ContosoUniversityBlazor.Application.Departments.Queries.GetDepartmentsLookup
+namespace WebUI.Shared.Departments.Queries.GetDepartmentsLookup
 {
     public class DepartmentLookupVM : IMapFrom<Department>
     {

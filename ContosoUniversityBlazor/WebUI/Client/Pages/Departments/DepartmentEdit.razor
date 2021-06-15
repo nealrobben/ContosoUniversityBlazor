@@ -1,5 +1,8 @@
 ﻿@page "/departments/edit/{id}"
+@using WebUI.Shared.Instructors.Queries.GetInstructorsLookup
 @inject DepartmentService DepartmentService
+@inject InstructorService InstructorService
+@inject NavigationManager NavManager
 
 <h3>DepartmentEdit</h3>
 
@@ -11,4 +14,29 @@
 
     [Parameter]
     public string id { get; set; }
+
+    private InstructorsLookupVM instructorsLookup;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+
+        instructorsLookup = await InstructorService.GetLookupAsync();
+        //createDepartmentCommand.InstructorID = instructorsLookup.Instructors.First().ID;
+    }
+
+    private async Task FormSubmitted(EditContext editContext)
+    {
+        bool formIsValid = editContext.Validate();
+
+        if (formIsValid)
+        {
+            //var result = await DepartmentService.UpdateAsync(createDepartmentCommand);
+
+            //if (result.IsSuccessStatusCode)
+            //{
+            //    NavManager.NavigateTo("/departments");
+            //}
+        }
+    }
 }

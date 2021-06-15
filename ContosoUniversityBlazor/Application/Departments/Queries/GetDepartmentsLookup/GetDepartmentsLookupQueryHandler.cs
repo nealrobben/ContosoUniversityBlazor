@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using WebUI.Shared.Departments.Queries.GetDepartmentsLookup;
 
 namespace ContosoUniversityBlazor.Application.Departments.Queries.GetDepartmentsLookup
 {

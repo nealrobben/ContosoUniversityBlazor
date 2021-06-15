@@ -1,6 +1,9 @@
 ﻿@page "/courses/create"
 @using WebUI.Shared.Courses.Commands.CreateCourse
+@using WebUI.Shared.Departments.Queries.GetDepartmentsLookup
 @inject CourseService CourseService
+@inject DepartmentService DepartmentService
+@inject NavigationManager NavManager
 
 <h1>Create</h1>
 
@@ -9,7 +12,40 @@
 
 <div class="row">
     <div class="col-md-4">
-
+        <EditForm Model=@createCourseCommand OnSubmit=@FormSubmitted>
+            <DataAnnotationsValidator />
+            <div class="form-group">
+                <label for="CourseID">CourseID</label>
+                <InputNumber @bind-Value=createCourseCommand.CourseID class="form-control" id="CourseID" />
+                <ValidationMessage For="() => createCourseCommand.CourseID" />
+            </div>
+            <div class="form-group">
+                <label for="Title">Title</label>
+                <InputText @bind-Value=createCourseCommand.Title class="form-control" id="Title" />
+                <ValidationMessage For="() => createCourseCommand.Title" />
+            </div>
+            <div class="form-group">
+                <label for="Credits">Credits</label>
+                <InputNumber @bind-Value=createCourseCommand.Credits class="form-control" id="Credits" />
+                <ValidationMessage For="() => createCourseCommand.Credits" />
+            </div>
+            <div class="form-group">
+                <label for="Department">Department</label>
+                <CustomInputSelect @bind-Value=createCourseCommand.DepartmentID class="form-control" id="Department">
+                    @if (departmentsLookup != null)
+                    {
+                        @foreach (var department in departmentsLookup.Departments)
+                        {
+                            <option value="@department.DepartmentID">@department.Name</option>
+                        }
+                    }
+                </CustomInputSelect>
+                <ValidationMessage For="() => createCourseCommand.DepartmentID" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </EditForm>
     </div>
 </div>
 
@@ -21,8 +57,26 @@
 
     CreateCourseCommand createCourseCommand = new CreateCourseCommand();
 
-    private async Task FormSubmitted()
+    private DepartmentsLookupVM departmentsLookup;
+
+    protected override async Task OnInitializedAsync()
     {
-        //await CourseService.CreateAsync(createCourseCommand);
+        departmentsLookup = await DepartmentService.GetLookupAsync();
+        createCourseCommand.DepartmentID = departmentsLookup.Departments.First().DepartmentID;
+    }
+
+    private async Task FormSubmitted(EditContext editContext)
+    {
+        bool formIsValid = editContext.Validate();
+
+        if (formIsValid)
+        {
+            var result = await CourseService.CreateAsync(createCourseCommand);
+
+            if (result.IsSuccessStatusCode)
+            {
+                NavManager.NavigateTo("/courses");
+            }
+        }
     }
 }

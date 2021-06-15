@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using WebUI.Shared.Departments.Commands.CreateDepartment;
 using WebUI.Shared.Departments.Commands.UpdateDepartment;
 using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
+using WebUI.Shared.Departments.Queries.GetDepartmentsLookup;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 
 namespace WebUI.Client.Services
@@ -37,6 +38,11 @@ namespace WebUI.Client.Services
         public async Task<HttpResponseMessage> UpdateAsync(UpdateDepartmentCommand createCommand)
         {
             return await _http.PutAsJsonAsync($"/api/departments", createCommand);
+        }
+
+        public async Task<DepartmentsLookupVM> GetLookupAsync()
+        {
+            return await _http.GetFromJsonAsync<DepartmentsLookupVM>("/api/departments/lookup");
         }
     }
 }

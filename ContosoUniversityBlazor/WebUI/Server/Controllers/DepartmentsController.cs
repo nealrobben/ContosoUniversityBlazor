@@ -11,6 +11,7 @@ using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 using WebUI.Shared.Departments.Queries.GetDepartmentDetails;
 using WebUI.Shared.Departments.Commands.CreateDepartment;
 using WebUI.Shared.Departments.Commands.UpdateDepartment;
+using WebUI.Shared.Departments.Queries.GetDepartmentsLookup;
 
 namespace ContosoUniversityBlazor.WebUI.Controllers
 {
