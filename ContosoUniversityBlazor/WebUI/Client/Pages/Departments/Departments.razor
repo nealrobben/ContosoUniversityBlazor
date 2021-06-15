@@ -1,6 +1,8 @@
 ﻿@page "/departments"
 @using WebUI.Shared.Departments.Queries.GetDepartmentsOverview
 @inject DepartmentService DepartmentService
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavManager
 
 <h2>Departments</h2>
 
@@ -47,7 +49,7 @@
                     <td>
                         <a href=@($"/departments/edit/{item.DepartmentID}")>Edit</a> |
                         <a href=@($"/departments/{item.DepartmentID}")>Details</a> |
-                        <a>Delete</a>
+                        <a @onclick=@(e => DeleteDepartment(item.DepartmentID, item.Name))>Delete</a>
                     </td>
                 </tr>
             }
@@ -62,5 +64,18 @@
     protected override async Task OnInitializedAsync()
     {
         departmentsOverview = await DepartmentService.GetAllAsync();
+    }
+
+    private async Task DeleteDepartment(int departmentId, string departmentName)
+    {
+        if (!await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete the department '{departmentName}'?"))
+            return;
+
+        var result = await DepartmentService.DeleteAsync(departmentId.ToString());
+
+        if (result.IsSuccessStatusCode)
+        {
+            departmentsOverview = await DepartmentService.GetAllAsync();
+        }
     }
 }
