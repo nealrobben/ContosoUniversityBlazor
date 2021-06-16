@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using WebUI.Shared.Students.Queries.GetStudentsForCourse;
 
 namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsForCourse
 {

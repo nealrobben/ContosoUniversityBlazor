@@ -1,8 +1,5 @@
-﻿using ContosoUniversityBlazor.Application.Courses.Commands.CreateCourse;
-using ContosoUniversityBlazor.Application.Courses.Commands.DeleteCourse;
-using ContosoUniversityBlazor.Application.Courses.Commands.UpdateCourse;
+﻿using ContosoUniversityBlazor.Application.Courses.Commands.DeleteCourse;
 using ContosoUniversityBlazor.Application.Courses.Queries.GetCourseDetails;
-using ContosoUniversityBlazor.Application.Courses.Queries.GetCoursesForInstructor;
 using ContosoUniversityBlazor.Application.Courses.Queries.GetCoursesOverview;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +7,7 @@ using System.Threading.Tasks;
 using WebUI.Shared.Courses.Commands.CreateCourse;
 using WebUI.Shared.Courses.Commands.UpdateCourse;
 using WebUI.Shared.Courses.Queries.GetCourseDetails;
+using WebUI.Shared.Courses.Queries.GetCoursesForInstructor;
 using WebUI.Shared.Courses.Queries.GetCoursesOverview;
 
 namespace ContosoUniversityBlazor.WebUI.Controllers

@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using ContosoUniversityBlazor.Application.Common.Interfaces;
-using ContosoUniversityBlazor.Application.Courses.Queries.GetCoursesForInstructor;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using WebUI.Shared.Courses.Queries.GetCoursesForInstructor;
 
 namespace ContosoUniversityBlazor.Application.Courses.Queries.GetCoursesOverview
 {

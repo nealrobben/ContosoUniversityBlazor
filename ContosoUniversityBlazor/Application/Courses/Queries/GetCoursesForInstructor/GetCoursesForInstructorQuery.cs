@@ -1,5 +1,5 @@
-﻿using ContosoUniversityBlazor.Application.Courses.Queries.GetCoursesForInstructor;
-using MediatR;
+﻿using MediatR;
+using WebUI.Shared.Courses.Queries.GetCoursesForInstructor;
 
 namespace ContosoUniversityBlazor.Application.Courses.Queries.GetCoursesOverview
 {

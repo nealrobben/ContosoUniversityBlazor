@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using ContosoUniversityBlazor.Application.Common.Mappings;
+using WebUI.Shared.Common.Mappings;
 
-namespace ContosoUniversityBlazor.Application.Courses.Queries.GetCoursesForInstructor
+namespace WebUI.Shared.Courses.Queries.GetCoursesForInstructor
 {
-    public class CourseForInstructorVM : IMapFrom<Domain.Entities.Course>
+    public class CourseForInstructorVM : IMapFrom<ContosoUniversityBlazor.Domain.Entities.Course>
     {
         public int CourseID { get; set; }
 
@@ -13,7 +13,7 @@ namespace ContosoUniversityBlazor.Application.Courses.Queries.GetCoursesForInstr
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Domain.Entities.Course, CourseForInstructorVM>()
+            profile.CreateMap<ContosoUniversityBlazor.Domain.Entities.Course, CourseForInstructorVM>()
                 .ForMember(d => d.DepartmentName, opt => opt.MapFrom(s => s.Department.Name));
         }
 

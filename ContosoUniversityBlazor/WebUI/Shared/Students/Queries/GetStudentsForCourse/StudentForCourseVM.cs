@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using ContosoUniversityBlazor.Application.Common.Mappings;
 using ContosoUniversityBlazor.Domain.Entities;
 using ContosoUniversityBlazor.Domain.Enums;
+using WebUI.Shared.Common.Mappings;
 
-namespace ContosoUniversityBlazor.Application.Students.Queries.GetStudentsForCourse
+namespace WebUI.Shared.Students.Queries.GetStudentsForCourse
 {
     public class StudentForCourseVM : IMapFrom<Enrollment>
     {
