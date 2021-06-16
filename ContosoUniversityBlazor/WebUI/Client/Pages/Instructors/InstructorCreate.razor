@@ -1,6 +1,7 @@
 ﻿@page "/instructors/create"
 @using WebUI.Shared.Instructors.Commands.CreateInstructor
 @inject InstructorService InstructorService
+@inject NavigationManager NavManager
 
 <h1>Create</h1>
 
@@ -9,7 +10,26 @@
 
 <div class="row">
     <div class="col-md-4">
-
+        <form asp-action="Create">
+            <EditForm Model=@createInstructorCommand OnSubmit=@FormSubmitted>
+                <div class="form-group">
+                    <label for="LastName">LastName</label>
+                    <InputText @bind-Value=createInstructorCommand.LastName class="form-control" id="LastName" />
+                    <ValidationMessage For="() => createInstructorCommand.LastName" />
+                </div>
+                <div class="form-group">
+                    <label for="FirstName">FirstName</label>
+                    <InputText @bind-Value=createInstructorCommand.FirstName class="form-control" id="FirstName" />
+                    <ValidationMessage For="() => createInstructorCommand.FirstName" />
+                </div>
+                <div class="form-group">
+                    <label for="HireDate">HireDate</label>
+                    <InputDate @bind-Value=createInstructorCommand.HireDate class="form-control" id="HireDate" />
+                    <ValidationMessage For="() => createInstructorCommand.HireDate" />
+                </div>
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </EditForm>
+        </form>
     </div>
 </div>
 
@@ -21,8 +41,18 @@
 
     CreateInstructorCommand createInstructorCommand = new CreateInstructorCommand() { HireDate = DateTime.UtcNow.Date };
 
-    private async Task FormSubmitted()
+    private async Task FormSubmitted(EditContext editContext)
     {
-        //await InstructorService.CreateAsync(createInstructorCommand);
+        bool formIsValid = editContext.Validate();
+
+        if (formIsValid)
+        {
+            var result = await InstructorService.CreateAsync(createInstructorCommand);
+
+            if (result.IsSuccessStatusCode)
+            {
+                NavManager.NavigateTo("/instructors");
+            }
+        }
     }
 }
