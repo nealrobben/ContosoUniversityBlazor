@@ -1,6 +1,8 @@
 ﻿@page "/students"
 @using WebUI.Shared.Students.Queries.GetStudentsOverview
 @inject StudentService StudentService
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavManager
 
 <h1>Index</h1>
 
@@ -41,7 +43,7 @@
                     <td>
                         <a href=@($"/students/edit/{student.StudentID}")>Edit</a> |
                         <a href=@($"/students/{student.StudentID}")>Details</a> |
-                        <a>Delete</a>
+                        <a @onclick=@(e => DeleteStudent(student.StudentID, $"{student.FirstName} {student.LastName}"))>Delete</a>
                     </td>
                 </tr>
             }
@@ -56,5 +58,18 @@
     protected override async Task OnInitializedAsync()
     {
         studentsOverview = await StudentService.GetAllAsync();
+    }
+
+    private async Task DeleteStudent(int studentId, string name)
+    {
+        if (!await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete the student '{name}'?"))
+            return;
+
+        var result = await StudentService.DeleteAsync(studentId.ToString());
+
+        if (result.IsSuccessStatusCode)
+        {
+            studentsOverview = await StudentService.GetAllAsync();
+        }
     }
 }
