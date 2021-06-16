@@ -1,6 +1,8 @@
 ﻿@page "/instructors"
 @using WebUI.Shared.Instructors.Queries.GetInstructorsOverview
 @inject InstructorService InstructorService
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavManager
 
 <h2>Instructors</h2>
 
@@ -55,7 +57,7 @@
                         <a>Select</a> |
                         <a href=@($"/instructors/edit/{item.InstructorID}")>Edit</a> |
                         <a href=@($"/instructors/{item.InstructorID}")>Details</a> |
-                        <a>Delete</a>
+                        <a @onclick=@(e => DeleteInstructor(item.InstructorID, $"{item.FirstName} {item.LastName}"))>Delete</a>
                     </td>
                 </tr>
             }
@@ -71,5 +73,18 @@
     protected override async Task OnInitializedAsync()
     {
         instructorsOverview = await InstructorService.GetAllAsync();
+    }
+
+    private async Task DeleteInstructor(int instructorId, string name)
+    {
+        if (!await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete the instructor '{name}'?"))
+            return;
+
+        var result = await InstructorService.DeleteAsync(instructorId.ToString());
+
+        if (result.IsSuccessStatusCode)
+        {
+            instructorsOverview = await InstructorService.GetAllAsync();
+        }
     }
 }
