@@ -1,10 +1,52 @@
 ﻿@page "/departments/edit/{id}"
 @using WebUI.Shared.Instructors.Queries.GetInstructorsLookup
+@using WebUI.Shared.Departments.Queries.GetDepartmentDetails
+@using WebUI.Shared.Departments.Commands.UpdateDepartment
 @inject DepartmentService DepartmentService
 @inject InstructorService InstructorService
 @inject NavigationManager NavManager
 
-<h3>DepartmentEdit</h3>
+<h1>Edit</h1>
+
+<h4>Department</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <EditForm Model=@department OnSubmit=@FormSubmitted>
+            <DataAnnotationsValidator />
+            <div class="form-group">
+                <label for="Name">Name</label>
+                <InputText @bind-Value=department.Name class="form-control" id="Name" />
+                <ValidationMessage For="() => department.Name" />
+            </div>
+            <div class="form-group">
+                <label for="Budget">Budget</label>
+                <InputNumber @bind-Value=department.Budget class="form-control" id="Budget" />
+                <ValidationMessage For="() => department.Budget" />
+            </div>
+            <div class="form-group">
+                <label for="StartDate">StartDate</label>
+                <InputDate @bind-Value=department.StartDate class="form-control" id="StartDate" />
+                <ValidationMessage For="() => department.StartDate" />
+            </div>
+            <div class="form-group">
+                <label for="InstructorID">InstructorID</label>
+                <CustomInputSelect @bind-Value=department.InstructorID class="form-control" id="InstructorID">
+                    @if (instructorsLookup != null)
+                    {
+                        @foreach (var instructor in instructorsLookup.Instructors)
+                        {
+                            <option value="@instructor.ID">@instructor.FullName</option>
+                        }
+                    }
+                </CustomInputSelect>
+                <ValidationMessage For="() => department.InstructorID" />
+            </div>
+            <input type="submit" value="Update" class="btn btn-primary" />
+        </EditForm>
+    </div>
+</div>
 
 <div>
     <a href="/departments">Back to List</a>
@@ -15,14 +57,14 @@
     [Parameter]
     public string id { get; set; }
 
+    private DepartmentDetailVM department = new DepartmentDetailVM();
     private InstructorsLookupVM instructorsLookup;
 
     protected override async Task OnInitializedAsync()
     {
-
+        department = await DepartmentService.GetAsync(id);
 
         instructorsLookup = await InstructorService.GetLookupAsync();
-        //createDepartmentCommand.InstructorID = instructorsLookup.Instructors.First().ID;
     }
 
     private async Task FormSubmitted(EditContext editContext)
@@ -31,12 +73,22 @@
 
         if (formIsValid)
         {
-            //var result = await DepartmentService.UpdateAsync(createDepartmentCommand);
+            var cmd = new UpdateDepartmentCommand
+            {
+                DepartmentID = department.DepartmentID,
+                Budget = department.Budget,
+                InstructorID = department.InstructorID,
+                Name = department.Name,
+                StartDate = department.StartDate,
+                RowVersion = department.RowVersion
+            };
 
-            //if (result.IsSuccessStatusCode)
-            //{
-            //    NavManager.NavigateTo("/departments");
-            //}
+            var result = await DepartmentService.UpdateAsync(cmd);
+
+            if (result.IsSuccessStatusCode)
+            {
+                NavManager.NavigateTo("/departments");
+            }
         }
     }
 }
