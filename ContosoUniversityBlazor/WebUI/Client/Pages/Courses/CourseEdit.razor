@@ -1,7 +1,54 @@
 ﻿@page "/courses/edit/{id}"
+@using WebUI.Shared.Courses.Commands.UpdateCourse
+@using WebUI.Shared.Departments.Queries.GetDepartmentsLookup
 @inject CourseService CourseService
+@inject DepartmentService DepartmentService
+@inject NavigationManager NavManager
 
-<h3>CourseEdit</h3>
+<h1>Edit</h1>
+
+<h4>Course</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <EditForm Model=@updateCourseCommand OnSubmit=@FormSubmitted>
+            <DataAnnotationsValidator />
+            <div class="form-group">
+                <label for="CourseID">CourseID</label>
+                <div>
+                    @updateCourseCommand.CourseID
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Title">Title</label>
+                <InputText @bind-Value=updateCourseCommand.Title class="form-control" id="Title" />
+                <ValidationMessage For="() => updateCourseCommand.Title" />
+            </div>
+            <div class="form-group">
+                <label for="Credits">Credits</label>
+                <InputNumber @bind-Value=updateCourseCommand.Credits class="form-control" id="Credits" />
+                <ValidationMessage For="() => updateCourseCommand.Credits" />
+            </div>
+            <div class="form-group">
+                <label for="Department">Department</label>
+                <CustomInputSelect @bind-Value=updateCourseCommand.DepartmentID class="form-control" id="Department">
+                    @if (departmentsLookup != null)
+                    {
+                        @foreach (var department in departmentsLookup.Departments)
+                        {
+                            <option value="@department.DepartmentID">@department.Name</option>
+                        }
+                    }
+                </CustomInputSelect>
+                <ValidationMessage For="() => updateCourseCommand.DepartmentID" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </EditForm>
+    </div>
+</div>
 
 <div>
     <a href="/courses">Back to List</a>
@@ -11,4 +58,34 @@
 
     [Parameter]
     public string id { get; set; }
+
+    private UpdateCourseCommand updateCourseCommand = new UpdateCourseCommand();
+    private DepartmentsLookupVM departmentsLookup;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var course = await CourseService.GetAsync(id);
+
+        updateCourseCommand.CourseID = course.CourseID;
+        updateCourseCommand.Credits = course.Credits;
+        updateCourseCommand.DepartmentID = course.DepartmentID;
+        updateCourseCommand.Title = course.Title;
+
+        departmentsLookup = await DepartmentService.GetLookupAsync();
+    }
+
+    private async Task FormSubmitted(EditContext editContext)
+    {
+        bool formIsValid = editContext.Validate();
+
+        if (formIsValid)
+        {
+            var result = await CourseService.UpdateAsync(updateCourseCommand);
+
+            if (result.IsSuccessStatusCode)
+            {
+                NavManager.NavigateTo("/courses");
+            }
+        }
+    }
 }
