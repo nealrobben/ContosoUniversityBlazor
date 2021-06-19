@@ -13,26 +13,26 @@
 
 <div class="row">
     <div class="col-md-4">
-        <EditForm Model=@department OnSubmit=@FormSubmitted>
+        <EditForm Model=@updateDepartmentCommand OnSubmit=@FormSubmitted>
             <DataAnnotationsValidator />
             <div class="form-group">
                 <label for="Name">Name</label>
-                <InputText @bind-Value=department.Name class="form-control" id="Name" />
-                <ValidationMessage For="() => department.Name" />
+                <InputText @bind-Value=updateDepartmentCommand.Name class="form-control" id="Name" />
+                <ValidationMessage For="() => updateDepartmentCommand.Name" />
             </div>
             <div class="form-group">
                 <label for="Budget">Budget</label>
-                <InputNumber @bind-Value=department.Budget class="form-control" id="Budget" />
-                <ValidationMessage For="() => department.Budget" />
+                <InputNumber @bind-Value=updateDepartmentCommand.Budget class="form-control" id="Budget" />
+                <ValidationMessage For="() => updateDepartmentCommand.Budget" />
             </div>
             <div class="form-group">
                 <label for="StartDate">StartDate</label>
-                <InputDate @bind-Value=department.StartDate class="form-control" id="StartDate" />
-                <ValidationMessage For="() => department.StartDate" />
+                <InputDate @bind-Value=updateDepartmentCommand.StartDate class="form-control" id="StartDate" />
+                <ValidationMessage For="() => updateDepartmentCommand.StartDate" />
             </div>
             <div class="form-group">
                 <label for="InstructorID">InstructorID</label>
-                <CustomInputSelect @bind-Value=department.InstructorID class="form-control" id="InstructorID">
+                <CustomInputSelect @bind-Value=updateDepartmentCommand.InstructorID class="form-control" id="InstructorID">
                     @if (instructorsLookup != null)
                     {
                         @foreach (var instructor in instructorsLookup.Instructors)
@@ -41,7 +41,7 @@
                         }
                     }
                 </CustomInputSelect>
-                <ValidationMessage For="() => department.InstructorID" />
+                <ValidationMessage For="() => updateDepartmentCommand.InstructorID" />
             </div>
             <input type="submit" value="Update" class="btn btn-primary" />
         </EditForm>
@@ -57,12 +57,19 @@
     [Parameter]
     public string id { get; set; }
 
-    private DepartmentDetailVM department = new DepartmentDetailVM();
+    private UpdateDepartmentCommand updateDepartmentCommand = new UpdateDepartmentCommand();
     private InstructorsLookupVM instructorsLookup;
 
     protected override async Task OnInitializedAsync()
     {
-        department = await DepartmentService.GetAsync(id);
+        var department = await DepartmentService.GetAsync(id);
+
+        updateDepartmentCommand.DepartmentID = department.DepartmentID;
+        updateDepartmentCommand.Budget = department.Budget;
+        updateDepartmentCommand.InstructorID = department.InstructorID.Value;
+        updateDepartmentCommand.Name = department.Name;
+        updateDepartmentCommand.StartDate = department.StartDate;
+        updateDepartmentCommand.RowVersion = department.RowVersion;
 
         instructorsLookup = await InstructorService.GetLookupAsync();
     }
@@ -73,17 +80,7 @@
 
         if (formIsValid)
         {
-            var cmd = new UpdateDepartmentCommand
-            {
-                DepartmentID = department.DepartmentID,
-                Budget = department.Budget,
-                InstructorID = department.InstructorID,
-                Name = department.Name,
-                StartDate = department.StartDate,
-                RowVersion = department.RowVersion
-            };
-
-            var result = await DepartmentService.UpdateAsync(cmd);
+            var result = await DepartmentService.UpdateAsync(updateDepartmentCommand);
 
             if (result.IsSuccessStatusCode)
             {
