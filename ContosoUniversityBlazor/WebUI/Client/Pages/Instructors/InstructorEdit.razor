@@ -1,7 +1,37 @@
 ﻿@page "/instructors/edit/{id}"
+@using WebUI.Shared.Instructors.Commands.UpdateInstructor
 @inject InstructorService InstructorService
+@inject NavigationManager NavManager
 
-<h3>InstructorEdit</h3>
+<h1>Edit</h1>
+
+<h4>Instructor</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <EditForm Model=@updateInstructorCommand OnSubmit=@FormSubmitted>
+                <div class="form-group">
+                    <label for="LastName">LastName</label>
+                    <InputText @bind-Value=updateInstructorCommand.LastName class="form-control" id="LastName" />
+                    <ValidationMessage For="() => updateInstructorCommand.LastName" />
+                </div>
+                <div class="form-group">
+                    <label for="FirstName">FirstName</label>
+                    <InputText @bind-Value=updateInstructorCommand.FirstName class="form-control" id="FirstName" />
+                    <ValidationMessage For="() => updateInstructorCommand.FirstName" />
+                </div>
+                <div class="form-group">
+                    <label for="HireDate">HireDate</label>
+                    <InputDate @bind-Value=updateInstructorCommand.HireDate class="form-control" id="HireDate" />
+                    <ValidationMessage For="() => updateInstructorCommand.HireDate" />
+                </div>
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </EditForm>
+        </form>
+    </div>
+</div>
 
 <div>
     <a href="/instructors">Back to List</a>
@@ -11,4 +41,33 @@
 
     [Parameter]
     public string id { get; set; }
+
+    private UpdateInstructorCommand updateInstructorCommand = new UpdateInstructorCommand();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var instructor = await InstructorService.GetAsync(id);
+
+        updateInstructorCommand.InstructorID = instructor.InstructorID;
+        updateInstructorCommand.FirstName = instructor.FirstName;
+        updateInstructorCommand.LastName = instructor.LastName;
+        updateInstructorCommand.HireDate = instructor.HireDate;
+
+        //TODO: Office location
+    }
+
+    private async Task FormSubmitted(EditContext editContext)
+    {
+        bool formIsValid = editContext.Validate();
+
+        if (formIsValid)
+        {
+            var result = await InstructorService.UpdateAsync(updateInstructorCommand);
+
+            if (result.IsSuccessStatusCode)
+            {
+                NavManager.NavigateTo("/instructors");
+            }
+        }
+    }
 }
