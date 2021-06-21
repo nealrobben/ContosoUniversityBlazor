@@ -1,7 +1,36 @@
 ﻿@page "/students/edit/{id}"
+@using WebUI.Shared.Students.Commands.UpdateStudent
 @inject StudentService StudentService
+@inject NavigationManager NavManager
 
-<h3>StudentEdit</h3>
+<h1>Edit</h1>
+
+<h4>Student</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <EditForm Model=@updateStudentCommand OnSubmit=@FormSubmitted>
+            <DataAnnotationsValidator />
+            <div class="form-group">
+                <label for="LastName">LastName</label>
+                <InputText @bind-Value=updateStudentCommand.LastName class="form-control" id="LastName" />
+                <ValidationMessage For="() => updateStudentCommand.LastName" />
+            </div>
+            <div class="form-group">
+                <label for="FirstName">FirstName</label>
+                <InputText @bind-Value=updateStudentCommand.FirstName class="form-control" id="FirstName" />
+                <ValidationMessage For="() => updateStudentCommand.FirstName" />
+            </div>
+            <div class="form-group">
+                <label for="EnrollmentDate">EnrollmentDate</label>
+                <InputDate @bind-Value=updateStudentCommand.EnrollmentDate class="form-control" id="EnrollmentDate" />
+                <ValidationMessage For="() => updateStudentCommand.EnrollmentDate" />
+            </div>
+            <input type="submit" value="Update" class="btn btn-primary" />
+        </EditForm>
+    </div>
+</div>
 
 <div>
     <a href="/students">Back to List</a>
@@ -11,4 +40,31 @@
 
     [Parameter]
     public string id { get; set; }
+
+    private UpdateStudentCommand updateStudentCommand = new UpdateStudentCommand();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var student = await StudentService.GetAsync(id);
+
+        updateStudentCommand.StudentID = student.StudentID;
+        updateStudentCommand.FirstName = student.FirstName;
+        updateStudentCommand.LastName = student.LastName;
+        updateStudentCommand.EnrollmentDate = student.EnrollmentDate;
+    }
+
+    private async Task FormSubmitted(EditContext editContext)
+    {
+        bool formIsValid = editContext.Validate();
+
+        if (formIsValid)
+        {
+            var result = await StudentService.UpdateAsync(updateStudentCommand);
+
+            if (result.IsSuccessStatusCode)
+            {
+                NavManager.NavigateTo("/students");
+            }
+        }
+    }
 }
