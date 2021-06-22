@@ -64,7 +64,10 @@
     </dl>
 </div>
 <div>
-    <a href=@($"/students/edit/{student.StudentID}")>Edit</a> |
+    @if (student != null)
+    {
+        <a href=@($"/students/edit/{student.StudentID}")>Edit</a>
+    }
     <a href="/students">Back to List</a>
 </div>
 

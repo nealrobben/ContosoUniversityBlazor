@@ -47,7 +47,10 @@
     </dl>
 </div>
 <div>
-    <a href=@($"/departments/edit/{department.DepartmentID}")>Edit</a> |
+    @if (department != null)
+    {
+        <a href=@($"/departments/edit/{department.DepartmentID}")>Edit</a>
+    }
     <a href="/departments">Back to List</a>
 </div>
 
