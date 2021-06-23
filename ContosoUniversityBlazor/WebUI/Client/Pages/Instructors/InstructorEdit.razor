@@ -27,7 +27,12 @@
                     <InputDate @bind-Value=updateInstructorCommand.HireDate class="form-control" id="HireDate" />
                     <ValidationMessage For="() => updateInstructorCommand.HireDate" />
                 </div>
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <div class="form-group">
+                    <label for="OfficeLocation">OfficeLocation</label>
+                    <InputText @bind-Value=updateInstructorCommand.OfficeLocation class="form-control" id="OfficeLocation" />
+                    <ValidationMessage For="() => updateInstructorCommand.OfficeLocation" />
+                </div>
+                <input type="submit" value="Update" class="btn btn-primary" />
             </EditForm>
         </form>
     </div>
@@ -52,8 +57,7 @@
         updateInstructorCommand.FirstName = instructor.FirstName;
         updateInstructorCommand.LastName = instructor.LastName;
         updateInstructorCommand.HireDate = instructor.HireDate;
-
-        //TODO: Office location
+        updateInstructorCommand.OfficeLocation = instructor.OfficeLocation;
     }
 
     private async Task FormSubmitted(EditContext editContext)
