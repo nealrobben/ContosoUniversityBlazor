@@ -1,6 +1,8 @@
 ﻿@page "/instructors"
 @using WebUI.Shared.Instructors.Queries.GetInstructorsOverview
+@using WebUI.Shared.Courses.Queries.GetCoursesForInstructor
 @inject InstructorService InstructorService
+@inject CourseService CourseService
 @inject IJSRuntime JSRuntime
 @inject NavigationManager NavManager
 
@@ -27,12 +29,13 @@
         {
             @foreach (var item in instructorsOverview.Instructors)
             {
-                //string selectedRow = "";
-                //if (item.InstructorID == instructorsOverview.SelectedInstructorID)
-                //{
-                //    selectedRow = "bg-success";
-                //}
-                <tr>
+                string selectedRow = "";
+                if (SelectedInstructorId.HasValue && item.InstructorID == SelectedInstructorId.Value)
+                {
+                    selectedRow = "bg-success";
+                }
+
+                <tr class="@selectedRow">
                     <td>
                         @item.LastName
                     </td>
@@ -54,7 +57,7 @@
                         }
                     </td>
                     <td>
-                        <a>Select</a> |
+                        <a @onclick=@(e => SelectInstructor(item.InstructorID))>Select</a> |
                         <a href=@($"/instructors/edit/{item.InstructorID}")>Edit</a> |
                         <a href=@($"/instructors/{item.InstructorID}")>Details</a> |
                         <a @onclick=@(e => DeleteInstructor(item.InstructorID, $"{item.FirstName} {item.LastName}"))>Delete</a>
@@ -66,9 +69,50 @@
     </tbody>
 </table>
 
+@if (courseForInstructorOverview != null)
+{
+    <h3>Courses Taught by Selected Instructor</h3>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Number</th>
+            <th>Title</th>
+            <th>Department</th>
+        </tr>
+
+        @foreach (var item in courseForInstructorOverview.Courses)
+        {
+            string selectedRow = "";
+            if (SelectedCourseId.HasValue && item.CourseID == SelectedCourseId.Value)
+            {
+                selectedRow = "bg-success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    <a @onclick=@(e => SelectCourse(item.CourseID))>Select</a>
+                </td>
+                <td>
+                    @item.CourseID
+                </td>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.DepartmentName
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
 @code {
 
     private InstructorsOverviewVM instructorsOverview;
+    private CoursesForInstructorOverviewVM courseForInstructorOverview;
+
+    private int? SelectedInstructorId;
+    private int? SelectedCourseId;
 
     protected override async Task OnInitializedAsync()
     {
@@ -86,5 +130,19 @@
         {
             instructorsOverview = await InstructorService.GetAllAsync();
         }
+    }
+
+    private async Task SelectInstructor(int instructorId)
+    {
+        SelectedInstructorId = instructorId;
+
+        courseForInstructorOverview = await CourseService.GetCoursesForInstructor(instructorId.ToString());
+    }
+
+    private async Task SelectCourse(int courseId)
+    {
+        SelectedCourseId = courseId;
+
+
     }
 }

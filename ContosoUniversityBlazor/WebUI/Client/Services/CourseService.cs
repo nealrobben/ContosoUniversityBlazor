@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using WebUI.Shared.Courses.Commands.CreateCourse;
 using WebUI.Shared.Courses.Commands.UpdateCourse;
 using WebUI.Shared.Courses.Queries.GetCourseDetails;
+using WebUI.Shared.Courses.Queries.GetCoursesForInstructor;
 using WebUI.Shared.Courses.Queries.GetCoursesOverview;
 
 namespace WebUI.Client.Services
@@ -37,6 +38,11 @@ namespace WebUI.Client.Services
         public async Task<HttpResponseMessage> UpdateAsync(UpdateCourseCommand createCommand)
         {
             return await _http.PutAsJsonAsync($"/api/courses", createCommand);
+        }
+
+        public async Task<CoursesForInstructorOverviewVM> GetCoursesForInstructor(string instructorId)
+        {
+            return await _http.GetFromJsonAsync<CoursesForInstructorOverviewVM>($"/api/courses/byinstructor/{instructorId}");
         }
     }
 }
