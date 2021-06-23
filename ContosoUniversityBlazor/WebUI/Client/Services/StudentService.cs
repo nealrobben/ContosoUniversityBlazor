@@ -5,6 +5,7 @@ using WebUI.Shared.Students.Commands.CreateStudent;
 using WebUI.Shared.Students.Commands.UpdateStudent;
 using WebUI.Shared.Students.Queries.GetStudentDetails;
 using WebUI.Shared.Students.Queries.GetStudentsOverview;
+using WebUI.Shared.Students.Queries.GetStudentsForCourse;
 
 namespace WebUI.Client.Services
 {
@@ -37,6 +38,11 @@ namespace WebUI.Client.Services
         public async Task<HttpResponseMessage> UpdateAsync(UpdateStudentCommand createCommand)
         {
             return await _http.PutAsJsonAsync($"/api/students", createCommand);
+        }
+
+        public async Task<StudentsForCourseVM> GetStudentsForCourse(string courseId)
+        {
+            return await _http.GetFromJsonAsync<StudentsForCourseVM>($"/api/students/bycourse/{courseId}");
         }
     }
 }

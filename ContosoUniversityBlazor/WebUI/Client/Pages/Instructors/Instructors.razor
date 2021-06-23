@@ -1,8 +1,10 @@
 ﻿@page "/instructors"
 @using WebUI.Shared.Instructors.Queries.GetInstructorsOverview
 @using WebUI.Shared.Courses.Queries.GetCoursesForInstructor
+@using WebUI.Shared.Students.Queries.GetStudentsForCourse
 @inject InstructorService InstructorService
 @inject CourseService CourseService
+@inject StudentService StudentService
 @inject IJSRuntime JSRuntime
 @inject NavigationManager NavManager
 
@@ -106,10 +108,35 @@
     </table>
 }
 
+@if (studentsForCourse != null)
+{
+    <h3>
+        Students Enrolled in Selected Course
+    </h3>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Grade</th>
+        </tr>
+        @foreach (var item in studentsForCourse.Students)
+        {
+            <tr>
+                <td>
+                    @item.StudentName
+                </td>
+                <td>
+                    @item.StudentGrade
+                </td>
+            </tr>
+        }
+    </table>
+}
+
 @code {
 
     private InstructorsOverviewVM instructorsOverview;
     private CoursesForInstructorOverviewVM courseForInstructorOverview;
+    private StudentsForCourseVM studentsForCourse;
 
     private int? SelectedInstructorId;
     private int? SelectedCourseId;
@@ -135,6 +162,8 @@
     private async Task SelectInstructor(int instructorId)
     {
         SelectedInstructorId = instructorId;
+        SelectedCourseId = null;
+        studentsForCourse = null;
 
         courseForInstructorOverview = await CourseService.GetCoursesForInstructor(instructorId.ToString());
     }
@@ -143,6 +172,6 @@
     {
         SelectedCourseId = courseId;
 
-
+        studentsForCourse = await StudentService.GetStudentsForCourse(courseId.ToString());
     }
 }
