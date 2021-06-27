@@ -15,7 +15,7 @@ namespace WebUI.Client.Services
         {
         }
 
-        public async Task<StudentsOverviewVM> GetAllAsync(int? pageNumber, string searchString)
+        public async Task<StudentsOverviewVM> GetAllAsync(string sortOrder, int? pageNumber, string searchString)
         {
             var url = "/api/students";
 
@@ -30,6 +30,14 @@ namespace WebUI.Client.Services
                     url += $"?searchString={searchString}";
                 else
                     url += $"&searchString={searchString}";
+            }
+
+            if (!string.IsNullOrEmpty(sortOrder))
+            {
+                if (!url.Contains("?"))
+                    url += $"?sortOrder={sortOrder}";
+                else
+                    url += $"&sortOrder={sortOrder}";
             }
 
             return await _http.GetFromJsonAsync<StudentsOverviewVM>(url);

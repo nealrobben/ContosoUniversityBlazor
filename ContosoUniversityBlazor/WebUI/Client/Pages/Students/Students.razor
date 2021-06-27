@@ -23,13 +23,13 @@
     <thead>
         <tr>
             <th>
-                <a>Last Name</a>
+                <a @onclick="SortByLastName">Last Name</a>
             </th>
             <th>
                 First Name
             </th>
             <th>
-                <a>Enrollment Date</a>
+                <a @onclick="SortByEnrollmentDate">Enrollment Date</a>
             </th>
             <th></th>
         </tr>
@@ -87,8 +87,9 @@
     {
         var pageNumber = studentsOverview?.PageNumber;
         var searchString = studentsOverview?.CurrentFilter ?? "";
+        var sortOrder = studentsOverview.CurrentSort ?? "";
 
-        studentsOverview = await StudentService.GetAllAsync(pageNumber, searchString);
+        studentsOverview = await StudentService.GetAllAsync(sortOrder, pageNumber, searchString);
     }
 
     private async Task DeleteStudent(int studentId, string name)
@@ -128,6 +129,34 @@
     private async Task BackToFullList()
     {
         studentsOverview.CurrentFilter = "";
+        await GetStudents();
+    }
+
+    private async Task SortByLastName()
+    {
+        if (studentsOverview.CurrentSort == "" || studentsOverview.CurrentSort == null)
+        {
+            studentsOverview.CurrentSort = "name_desc";
+        }
+        else
+        {
+            studentsOverview.CurrentSort = "";
+        }
+
+        await GetStudents();
+    }
+
+    private async Task SortByEnrollmentDate()
+    {
+        if (studentsOverview.CurrentSort == "Date")
+        {
+            studentsOverview.CurrentSort = "date_desc";
+        }
+        else
+        {
+            studentsOverview.CurrentSort = "Date";
+        }
+
         await GetStudents();
     }
 }
