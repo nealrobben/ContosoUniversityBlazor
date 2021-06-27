@@ -15,9 +15,16 @@ namespace WebUI.Client.Services
         {
         }
 
-        public async Task<StudentsOverviewVM> GetAllAsync()
+        public async Task<StudentsOverviewVM> GetAllAsync(int? pageNumber)
         {
-            return await _http.GetFromJsonAsync<StudentsOverviewVM>("/api/students");
+            var url = "/api/students";
+
+            if(pageNumber != null)
+            {
+                url += $"?pageNumber={pageNumber}";
+            }
+
+            return await _http.GetFromJsonAsync<StudentsOverviewVM>(url);
         }
 
         public async Task<StudentDetailsVM> GetAsync(string id)

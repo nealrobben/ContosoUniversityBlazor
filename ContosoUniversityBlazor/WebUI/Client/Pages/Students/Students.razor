@@ -71,7 +71,14 @@
 
     protected override async Task OnInitializedAsync()
     {
-        studentsOverview = await StudentService.GetAllAsync();
+        await GetStudents();
+    }
+
+    private async Task GetStudents()
+    {
+        var pageNumber = studentsOverview?.PageNumber;
+
+        studentsOverview = await StudentService.GetAllAsync(pageNumber);
     }
 
     private async Task DeleteStudent(int studentId, string name)
@@ -83,17 +90,23 @@
 
         if (result.IsSuccessStatusCode)
         {
-            studentsOverview = await StudentService.GetAllAsync();
+            await GetStudents();
         }
-    }
-
-    private async Task NextPage()
-    {
-
     }
 
     private async Task PreviousPage()
     {
+        if (studentsOverview.PageNumber > 1)
+            studentsOverview.PageNumber -= 1;
 
+        await GetStudents();
+    }
+
+    private async Task NextPage()
+    {
+        if (studentsOverview.PageNumber < studentsOverview.TotalPages)
+            studentsOverview.PageNumber += 1;
+
+        await GetStudents();
     }
 }
