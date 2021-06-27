@@ -10,6 +10,15 @@
     <a href="/students/create">Create New</a>
 </p>
 
+<div class="form-actions no-color">
+    <p>
+        <!--Find by name: <input type="text" name="SearchString" value="{{vm.currentFilter}}" />-->
+        Find by name: <input type="text" name="searchString" @bind="studentsOverview.CurrentFilter" />
+        <button type="button" class="btn btn-link" @onclick="Filter">Search</button>|
+        <button type="button" class="btn btn-link" @onclick="BackToFullList">Back to Full List</button>
+    </p>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -67,7 +76,7 @@
 
 @code {
 
-    private StudentsOverviewVM studentsOverview;
+    private StudentsOverviewVM studentsOverview = new StudentsOverviewVM();
 
     protected override async Task OnInitializedAsync()
     {
@@ -77,8 +86,9 @@
     private async Task GetStudents()
     {
         var pageNumber = studentsOverview?.PageNumber;
+        var searchString = studentsOverview?.CurrentFilter ?? "";
 
-        studentsOverview = await StudentService.GetAllAsync(pageNumber);
+        studentsOverview = await StudentService.GetAllAsync(pageNumber, searchString);
     }
 
     private async Task DeleteStudent(int studentId, string name)
@@ -107,6 +117,17 @@
         if (studentsOverview.PageNumber < studentsOverview.TotalPages)
             studentsOverview.PageNumber += 1;
 
+        await GetStudents();
+    }
+
+    private async Task Filter()
+    {
+        await GetStudents();
+    }
+
+    private async Task BackToFullList()
+    {
+        studentsOverview.CurrentFilter = "";
         await GetStudents();
     }
 }
