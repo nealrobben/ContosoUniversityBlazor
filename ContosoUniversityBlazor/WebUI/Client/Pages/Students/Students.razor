@@ -51,6 +51,20 @@
     </tbody>
 </table>
 
+@if (studentsOverview != null && studentsOverview.HasPreviousPage)
+{
+    <button type="button" @onclick="PreviousPage" class="btn btn-link">
+        Previous
+    </button>
+}
+
+@if (studentsOverview != null && studentsOverview.HasNextPage)
+{
+    <button type="button" @onclick="NextPage" class="btn btn-link">
+        Next
+    </button>
+}
+
 @code {
 
     private StudentsOverviewVM studentsOverview;
@@ -71,5 +85,15 @@
         {
             studentsOverview = await StudentService.GetAllAsync();
         }
+    }
+
+    private async Task NextPage()
+    {
+
+    }
+
+    private async Task PreviousPage()
+    {
+
     }
 }
