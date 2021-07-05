@@ -1,8 +1,6 @@
 ﻿@page "/departments"
-@using WebUI.Shared.Departments.Queries.GetDepartmentsOverview
-@inject DepartmentService DepartmentService
-@inject IJSRuntime JSRuntime
-@inject NavigationManager NavManager
+@using WebUI.Client.ViewModels.Departments
+@inject DepartmentsViewModel DepartmentsViewModel 
 
 <h2>Departments</h2>
 
@@ -29,9 +27,9 @@
     </thead>
     <tbody>
 
-        @if (departmentsOverview != null)
+        @if (DepartmentsViewModel.departmentsOverview != null)
         {
-            @foreach (var item in departmentsOverview?.Departments)
+            @foreach (var item in DepartmentsViewModel.departmentsOverview?.Departments)
             {
                 <tr>
                     <td>
@@ -49,7 +47,7 @@
                     <td>
                         <a href=@($"/departments/edit/{item.DepartmentID}")>Edit</a> |
                         <a href=@($"/departments/{item.DepartmentID}")>Details</a> |
-                        <a @onclick=@(e => DeleteDepartment(item.DepartmentID, item.Name))>Delete</a>
+                        <a @onclick=@(e => DepartmentsViewModel.DeleteDepartment(item.DepartmentID, item.Name))>Delete</a>
                     </td>
                 </tr>
             }
@@ -59,23 +57,9 @@
 </table>
 
 @code {
-    private DepartmentsOverviewVM departmentsOverview;
 
     protected override async Task OnInitializedAsync()
     {
-        departmentsOverview = await DepartmentService.GetAllAsync();
-    }
-
-    private async Task DeleteDepartment(int departmentId, string departmentName)
-    {
-        if (!await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete the department '{departmentName}'?"))
-            return;
-
-        var result = await DepartmentService.DeleteAsync(departmentId.ToString());
-
-        if (result.IsSuccessStatusCode)
-        {
-            departmentsOverview = await DepartmentService.GetAllAsync();
-        }
+        await DepartmentsViewModel.Initialize();
     }
 }

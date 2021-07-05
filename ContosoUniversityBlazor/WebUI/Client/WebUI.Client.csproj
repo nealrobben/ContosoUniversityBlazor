@@ -16,4 +16,10 @@
     <ProjectReference Include="..\Shared\WebUI.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\Courses\" />
+    <Folder Include="ViewModels\Instructors\" />
+    <Folder Include="ViewModels\Students\" />
+  </ItemGroup>
+
 </Project>
