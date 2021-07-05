@@ -1,8 +1,5 @@
 ﻿@page "/courses"
-@using WebUI.Shared.Courses.Queries.GetCoursesOverview
-@inject CourseService CourseService
-@inject IJSRuntime JSRuntime
-@inject NavigationManager NavManager
+@inject WebUI.Client.ViewModels.Courses.CoursesViewModel CoursesViewModel
 
 <h2>Courses</h2>
 
@@ -29,9 +26,9 @@
     </thead>
     <tbody>
 
-        @if (coursesOverview != null)
+        @if (CoursesViewModel.coursesOverview != null)
         {
-            @foreach (var item in coursesOverview.Courses)
+            @foreach (var item in CoursesViewModel.coursesOverview.Courses)
             {
                 <tr>
                     <td>
@@ -49,7 +46,7 @@
                     <td>
                         <a href=@($"/courses/edit/{item.CourseID}")>Edit</a> |
                         <a href=@($"/courses/{item.CourseID}")>Details</a> |
-                        <a @onclick=@(e => DeleteCourse(item.CourseID, item.Title))>Delete</a>
+                        <a @onclick=@(e => CoursesViewModel.DeleteCourse(item.CourseID, item.Title))>Delete</a>
                     </td>
                 </tr>
             }
@@ -59,23 +56,9 @@
 </table>
 
 @code {
-    private CoursesOverviewVM coursesOverview;
 
     protected override async Task OnInitializedAsync()
     {
-        coursesOverview = await CourseService.GetAllAsync();
-    }
-
-    private async Task DeleteCourse(int courseId, string title)
-    {
-        if (!await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete the course '{title}'?"))
-            return;
-
-        var result = await CourseService.DeleteAsync(courseId.ToString());
-
-        if (result.IsSuccessStatusCode)
-        {
-            coursesOverview = await CourseService.GetAllAsync();
-        }
+        await CoursesViewModel.Initialize();
     }
 }

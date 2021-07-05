@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
+﻿using Microsoft.JSInterop;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
 using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
@@ -10,16 +9,14 @@ namespace WebUI.Client.ViewModels.Departments
     {
         private readonly DepartmentService _departmentService;
         private readonly IJSRuntime _jSRuntime;
-        private readonly NavigationManager _navManager;
 
         public DepartmentsOverviewVM departmentsOverview { get; set; }
 
         public DepartmentsViewModel(DepartmentService departmentService, 
-            IJSRuntime jSRuntime, NavigationManager navManager)
+            IJSRuntime jSRuntime)
         {
             _departmentService = departmentService;
             _jSRuntime = jSRuntime;
-            _navManager = navManager;
         }
 
         public async Task Initialize()

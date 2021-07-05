@@ -4,6 +4,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WebUI.Client.Services;
+using WebUI.Client.ViewModels.Courses;
 using WebUI.Client.ViewModels.Departments;
 
 namespace WebUI.Client
@@ -22,6 +23,7 @@ namespace WebUI.Client
             builder.Services.AddScoped<InstructorService>();
             builder.Services.AddScoped<StudentService>();
             builder.Services.AddScoped<DepartmentsViewModel>();
+            builder.Services.AddScoped<CoursesViewModel>();
 
             await builder.Build().RunAsync();
         }
