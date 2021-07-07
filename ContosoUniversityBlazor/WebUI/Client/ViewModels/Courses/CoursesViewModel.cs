@@ -10,7 +10,7 @@ namespace WebUI.Client.ViewModels.Courses
         private readonly CourseService _courseService;
         private readonly IJSRuntime _jSRuntime;
 
-        public CoursesOverviewVM coursesOverview { get; set; };
+        public CoursesOverviewVM coursesOverview { get; set; }
 
         public CoursesViewModel(CourseService courseService,
             IJSRuntime jSRuntime)

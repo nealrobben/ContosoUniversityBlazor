@@ -5,17 +5,15 @@ using WebUI.Shared.Departments.Queries.GetDepartmentsOverview;
 
 namespace WebUI.Client.ViewModels.Departments
 {
-    public class DepartmentsViewModel
+    public class DepartmentsViewModel : DepartmentViewModelBase
     {
-        private readonly DepartmentService _departmentService;
         private readonly IJSRuntime _jSRuntime;
 
         public DepartmentsOverviewVM departmentsOverview { get; set; }
 
-        public DepartmentsViewModel(DepartmentService departmentService, 
-            IJSRuntime jSRuntime)
+        public DepartmentsViewModel(DepartmentService departmentService,
+            IJSRuntime jSRuntime) : base(departmentService)
         {
-            _departmentService = departmentService;
             _jSRuntime = jSRuntime;
         }
 
