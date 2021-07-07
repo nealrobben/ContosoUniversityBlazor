@@ -23,7 +23,7 @@ namespace WebUI.Client
             builder.Services.AddScoped<InstructorService>();
             builder.Services.AddScoped<StudentService>();
             builder.Services.AddScoped<DepartmentsViewModel>();
-            builder.Services.AddScoped<CoursesViewModel>();
+            builder.Services.AddScoped<CourseViewModel>();
 
             await builder.Build().RunAsync();
         }

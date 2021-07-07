@@ -5,17 +5,15 @@ using WebUI.Shared.Courses.Queries.GetCoursesOverview;
 
 namespace WebUI.Client.ViewModels.Courses
 {
-    public class CoursesViewModel
+    public class CourseViewModel : CoursesViewModelBase
     {
-        private readonly CourseService _courseService;
         private readonly IJSRuntime _jSRuntime;
 
         public CoursesOverviewVM coursesOverview { get; set; }
 
-        public CoursesViewModel(CourseService courseService,
-            IJSRuntime jSRuntime)
+        public CourseViewModel(CourseService courseService,
+            IJSRuntime jSRuntime) : base(courseService)
         {
-            _courseService = courseService;
             _jSRuntime = jSRuntime;
         }
 
