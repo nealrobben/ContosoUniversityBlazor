@@ -1,9 +1,6 @@
 ﻿@page "/departments/create"
-@using WebUI.Shared.Departments.Commands.CreateDepartment
-@using WebUI.Shared.Instructors.Queries.GetInstructorsLookup
-@inject DepartmentService DepartmentService
-@inject InstructorService InstructorService
-@inject NavigationManager NavManager
+@using WebUI.Client.ViewModels.Departments
+@inject DepartmentCreateViewModel DepartmentCreateViewModel
 
 <h1>Create</h1>
 
@@ -12,35 +9,35 @@
 
 <div class="row">
     <div class="col-md-4">
-        <EditForm Model=@createDepartmentCommand OnSubmit=@FormSubmitted>
+        <EditForm Model=@DepartmentCreateViewModel.CreateDepartmentCommand OnSubmit=@DepartmentCreateViewModel.FormSubmitted>
             <DataAnnotationsValidator />
             <div class="form-group">
                 <label for="Name">Name</label>
-                <InputText @bind-Value=createDepartmentCommand.Name class="form-control" id="Name" />
-                <ValidationMessage For="() => createDepartmentCommand.Name" />
+                <InputText @bind-Value=DepartmentCreateViewModel.CreateDepartmentCommand.Name class="form-control" id="Name" />
+                <ValidationMessage For="() => DepartmentCreateViewModel.CreateDepartmentCommand.Name" />
             </div>
             <div class="form-group">
                 <label for="Budget">Budget</label>
-                <InputNumber @bind-Value=createDepartmentCommand.Budget class="form-control" id="Budget" />
-                <ValidationMessage For="() => createDepartmentCommand.Budget" />
+                <InputNumber @bind-Value=DepartmentCreateViewModel.CreateDepartmentCommand.Budget class="form-control" id="Budget" />
+                <ValidationMessage For="() => DepartmentCreateViewModel.CreateDepartmentCommand.Budget" />
             </div>
             <div class="form-group">
                 <label for="StartDate">StartDate</label>
-                <InputDate @bind-Value=createDepartmentCommand.StartDate class="form-control" id="StartDate" />
-                <ValidationMessage For="() => createDepartmentCommand.StartDate" />
+                <InputDate @bind-Value=DepartmentCreateViewModel.CreateDepartmentCommand.StartDate class="form-control" id="StartDate" />
+                <ValidationMessage For="() => DepartmentCreateViewModel.CreateDepartmentCommand.StartDate" />
             </div>
             <div class="form-group">
                 <label for="InstructorID">InstructorID</label>
-                <CustomInputSelect @bind-Value=createDepartmentCommand.InstructorID class="form-control" id="InstructorID">
-                    @if (instructorsLookup != null)
+                <CustomInputSelect @bind-Value=DepartmentCreateViewModel.CreateDepartmentCommand.InstructorID class="form-control" id="InstructorID">
+                    @if (DepartmentCreateViewModel.InstructorsLookup != null)
                     {
-                        @foreach (var instructor in instructorsLookup.Instructors)
+                        @foreach (var instructor in DepartmentCreateViewModel.InstructorsLookup.Instructors)
                         {
                             <option value="@instructor.ID">@instructor.FullName</option>
                         }
                     }
                 </CustomInputSelect>
-                <ValidationMessage For="() => createDepartmentCommand.InstructorID" />
+                <ValidationMessage For="() => DepartmentCreateViewModel.CreateDepartmentCommand.InstructorID" />
             </div>
             <input type="submit" value="Create" class="btn btn-primary" />
         </EditForm>
@@ -53,28 +50,8 @@
 
 @code {
 
-    CreateDepartmentCommand createDepartmentCommand = new CreateDepartmentCommand() { StartDate = DateTime.UtcNow.Date };
-
-    private InstructorsLookupVM instructorsLookup;
-
     protected override async Task OnInitializedAsync()
     {
-        instructorsLookup = await InstructorService.GetLookupAsync();
-        createDepartmentCommand.InstructorID = instructorsLookup.Instructors.First().ID;
-    }
-
-    private async Task FormSubmitted(EditContext editContext)
-    {
-        bool formIsValid = editContext.Validate();
-
-        if (formIsValid)
-        {
-            var result = await DepartmentService.CreateAsync(createDepartmentCommand);
-
-            if (result.IsSuccessStatusCode)
-            {
-                NavManager.NavigateTo("/departments");
-            }
-        }
+        await DepartmentCreateViewModel.OnInitializedAsync();
     }
 }

@@ -17,7 +17,7 @@ namespace WebUI.Client.ViewModels.Departments
             _jSRuntime = jSRuntime;
         }
 
-        public async Task Initialize()
+        public async Task OnInitializedAsync()
         {
             departmentsOverview = await _departmentService.GetAllAsync();
         }
