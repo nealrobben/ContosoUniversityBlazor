@@ -1,6 +1,6 @@
 ﻿@page "/instructors/{id}"
-@using WebUI.Shared.Instructors.Queries.GetInstructorDetails
-@inject InstructorService InstructorService
+@using WebUI.Client.ViewModels.Instructors
+@inject InstructorDetailsViewModel InstructorDetailsViewModel
 
 <h1>Details</h1>
 
@@ -12,35 +12,35 @@
             LastName
         </dt>
         <dd class="col-sm-10">
-            @if (instructor != null)
+            @if (InstructorDetailsViewModel.Instructor != null)
             {
-                @instructor.LastName
+                @InstructorDetailsViewModel.Instructor.LastName
             }
         </dd>
         <dt class="col-sm-2">
             FirstName
         </dt>
         <dd class="col-sm-10">
-            @if (instructor != null)
+            @if (InstructorDetailsViewModel.Instructor != null)
             {
-                @instructor.FirstName
+                @InstructorDetailsViewModel.Instructor.FirstName
             }
         </dd>
         <dt class="col-sm-2">
             HireDate
         </dt>
         <dd class="col-sm-10">
-            @if (instructor != null)
+            @if (InstructorDetailsViewModel.Instructor != null)
             {
-                @instructor.HireDate.ToShortDateString()
+                @InstructorDetailsViewModel.Instructor.HireDate.ToShortDateString()
             }
         </dd>
     </dl>
 </div>
 <div>
-    @if (instructor != null)
+    @if (InstructorDetailsViewModel.Instructor != null)
     {
-        <a href=@($"/instructors/edit/{instructor.InstructorID}")>Edit</a>
+        <a href=@($"/instructors/edit/{InstructorDetailsViewModel.Instructor.InstructorID}")>Edit</a>
     }
     <a href="/instructors">Back to List</a>
 </div>
@@ -50,10 +50,8 @@
     [Parameter]
     public string id { get; set; }
 
-    private InstructorDetailsVM instructor;
-
     protected override async Task OnInitializedAsync()
     {
-        instructor = await InstructorService.GetAsync(id);
+        await InstructorDetailsViewModel.OnInitializedAsync(id);
     }
 }
