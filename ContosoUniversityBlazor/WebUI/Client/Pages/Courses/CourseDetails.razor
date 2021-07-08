@@ -1,6 +1,6 @@
 ﻿@page "/courses/{id}"
-@using WebUI.Shared.Courses.Queries.GetCourseDetails
-@inject CourseService CourseService
+@using WebUI.Client.ViewModels.Courses
+@inject CourseDetailsViewModel CourseDetailsViewModel
 
 <h1>Details</h1>
 
@@ -12,35 +12,35 @@
             Title
         </dt>
         <dd class="col-sm-10">
-            @if (course != null)
+            @if (CourseDetailsViewModel.Course != null)
             {
-                @course.Title
+                @CourseDetailsViewModel.Course.Title
             }
         </dd>
         <dt class="col-sm-2">
             Credits
         </dt>
         <dd class="col-sm-10">
-            @if (course != null)
+            @if (CourseDetailsViewModel.Course != null)
             {
-                @course.Credits
+                @CourseDetailsViewModel.Course.Credits
             }
         </dd>
         <dt class="col-sm-2">
             DepartmentID
         </dt>
         <dd class="col-sm-10">
-            @if (course != null)
+            @if (CourseDetailsViewModel.Course != null)
             {
-                @course.DepartmentID
+                @CourseDetailsViewModel.Course.DepartmentID
             }
         </dd>
     </dl>
 </div>
 <div>
-    @if (course != null)
+    @if (CourseDetailsViewModel.Course != null)
     {
-        <a href=@($"/courses/edit/{course.CourseID}")>Edit</a>
+        <a href=@($"/courses/edit/{CourseDetailsViewModel.Course.CourseID}")>Edit</a>
     }
     <a href="/courses">Back to List</a>
 </div>
@@ -50,10 +50,8 @@
     [Parameter]
     public string id { get; set; }
 
-    private CourseDetailVM course;
-
     protected override async Task OnInitializedAsync()
     {
-        course = await CourseService.GetAsync(id);
+        await CourseDetailsViewModel.OnInitializedAsync(id);
     }
 }
