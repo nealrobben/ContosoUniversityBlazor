@@ -1,7 +1,6 @@
 ﻿@page "/instructors/create"
-@using WebUI.Shared.Instructors.Commands.CreateInstructor
-@inject InstructorService InstructorService
-@inject NavigationManager NavManager
+@using WebUI.Client.ViewModels.Instructors
+@inject InstructorCreateViewModel InstructorCreateViewModel
 
 <h1>Create</h1>
 
@@ -11,21 +10,21 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <EditForm Model=@createInstructorCommand OnSubmit=@FormSubmitted>
+            <EditForm Model=@InstructorCreateViewModel.CreateInstructorCommand OnSubmit=@InstructorCreateViewModel.FormSubmitted>
                 <div class="form-group">
                     <label for="LastName">LastName</label>
-                    <InputText @bind-Value=createInstructorCommand.LastName class="form-control" id="LastName" />
-                    <ValidationMessage For="() => createInstructorCommand.LastName" />
+                    <InputText @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.LastName class="form-control" id="LastName" />
+                    <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.LastName" />
                 </div>
                 <div class="form-group">
                     <label for="FirstName">FirstName</label>
-                    <InputText @bind-Value=createInstructorCommand.FirstName class="form-control" id="FirstName" />
-                    <ValidationMessage For="() => createInstructorCommand.FirstName" />
+                    <InputText @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.FirstName class="form-control" id="FirstName" />
+                    <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.FirstName" />
                 </div>
                 <div class="form-group">
                     <label for="HireDate">HireDate</label>
-                    <InputDate @bind-Value=createInstructorCommand.HireDate class="form-control" id="HireDate" />
-                    <ValidationMessage For="() => createInstructorCommand.HireDate" />
+                    <InputDate @bind-Value=InstructorCreateViewModel.CreateInstructorCommand.HireDate class="form-control" id="HireDate" />
+                    <ValidationMessage For="() => InstructorCreateViewModel.CreateInstructorCommand.HireDate" />
                 </div>
                 <input type="submit" value="Create" class="btn btn-primary" />
             </EditForm>
@@ -39,20 +38,4 @@
 
 @code {
 
-    CreateInstructorCommand createInstructorCommand = new CreateInstructorCommand() { HireDate = DateTime.UtcNow.Date };
-
-    private async Task FormSubmitted(EditContext editContext)
-    {
-        bool formIsValid = editContext.Validate();
-
-        if (formIsValid)
-        {
-            var result = await InstructorService.CreateAsync(createInstructorCommand);
-
-            if (result.IsSuccessStatusCode)
-            {
-                NavManager.NavigateTo("/instructors");
-            }
-        }
-    }
 }
