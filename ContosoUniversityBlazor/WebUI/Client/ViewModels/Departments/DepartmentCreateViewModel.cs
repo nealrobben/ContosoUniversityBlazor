@@ -14,8 +14,7 @@ namespace WebUI.Client.ViewModels.Departments
         private readonly NavigationManager _navManager;
         private readonly InstructorService _instructorService;
 
-        public CreateDepartmentCommand CreateDepartmentCommand = new CreateDepartmentCommand() { StartDate = DateTime.UtcNow.Date };
-
+        public CreateDepartmentCommand CreateDepartmentCommand { get; set; } = new CreateDepartmentCommand() { StartDate = DateTime.UtcNow.Date };
         public InstructorsLookupVM InstructorsLookup { get; set; }
 
         public DepartmentCreateViewModel(DepartmentService departmentService, 

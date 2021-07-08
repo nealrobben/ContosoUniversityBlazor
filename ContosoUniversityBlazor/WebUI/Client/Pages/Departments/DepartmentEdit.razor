@@ -1,9 +1,6 @@
 ﻿@page "/departments/edit/{id}"
-@using WebUI.Shared.Instructors.Queries.GetInstructorsLookup
-@using WebUI.Shared.Departments.Commands.UpdateDepartment
-@inject DepartmentService DepartmentService
-@inject InstructorService InstructorService
-@inject NavigationManager NavManager
+@using WebUI.Client.ViewModels.Departments
+@inject DepartmentEditViewModel DepartmentEditViewModel
 
 <h1>Edit</h1>
 
@@ -12,35 +9,35 @@
 
 <div class="row">
     <div class="col-md-4">
-        <EditForm Model=@updateDepartmentCommand OnSubmit=@FormSubmitted>
+        <EditForm Model=@DepartmentEditViewModel.UpdateDepartmentCommand OnSubmit=@DepartmentEditViewModel.FormSubmitted>
             <DataAnnotationsValidator />
             <div class="form-group">
                 <label for="Name">Name</label>
-                <InputText @bind-Value=updateDepartmentCommand.Name class="form-control" id="Name" />
-                <ValidationMessage For="() => updateDepartmentCommand.Name" />
+                <InputText @bind-Value=DepartmentEditViewModel.UpdateDepartmentCommand.Name class="form-control" id="Name" />
+                <ValidationMessage For="() => DepartmentEditViewModel.UpdateDepartmentCommand.Name" />
             </div>
             <div class="form-group">
                 <label for="Budget">Budget</label>
-                <InputNumber @bind-Value=updateDepartmentCommand.Budget class="form-control" id="Budget" />
-                <ValidationMessage For="() => updateDepartmentCommand.Budget" />
+                <InputNumber @bind-Value=DepartmentEditViewModel.UpdateDepartmentCommand.Budget class="form-control" id="Budget" />
+                <ValidationMessage For="() => DepartmentEditViewModel.UpdateDepartmentCommand.Budget" />
             </div>
             <div class="form-group">
                 <label for="StartDate">StartDate</label>
-                <InputDate @bind-Value=updateDepartmentCommand.StartDate class="form-control" id="StartDate" />
-                <ValidationMessage For="() => updateDepartmentCommand.StartDate" />
+                <InputDate @bind-Value=DepartmentEditViewModel.UpdateDepartmentCommand.StartDate class="form-control" id="StartDate" />
+                <ValidationMessage For="() => DepartmentEditViewModel.UpdateDepartmentCommand.StartDate" />
             </div>
             <div class="form-group">
                 <label for="InstructorID">InstructorID</label>
-                <CustomInputSelect @bind-Value=updateDepartmentCommand.InstructorID class="form-control" id="InstructorID">
-                    @if (instructorsLookup != null)
+                <CustomInputSelect @bind-Value=DepartmentEditViewModel.UpdateDepartmentCommand.InstructorID class="form-control" id="InstructorID">
+                    @if (DepartmentEditViewModel.InstructorsLookup != null)
                     {
-                        @foreach (var instructor in instructorsLookup.Instructors)
+                        @foreach (var instructor in DepartmentEditViewModel.InstructorsLookup.Instructors)
                         {
                             <option value="@instructor.ID">@instructor.FullName</option>
                         }
                     }
                 </CustomInputSelect>
-                <ValidationMessage For="() => updateDepartmentCommand.InstructorID" />
+                <ValidationMessage For="() => DepartmentEditViewModel.UpdateDepartmentCommand.InstructorID" />
             </div>
             <input type="submit" value="Update" class="btn btn-primary" />
         </EditForm>
@@ -56,35 +53,8 @@
     [Parameter]
     public string id { get; set; }
 
-    private UpdateDepartmentCommand updateDepartmentCommand = new UpdateDepartmentCommand();
-    private InstructorsLookupVM instructorsLookup;
-
     protected override async Task OnInitializedAsync()
     {
-        var department = await DepartmentService.GetAsync(id);
-
-        updateDepartmentCommand.DepartmentID = department.DepartmentID;
-        updateDepartmentCommand.Budget = department.Budget;
-        updateDepartmentCommand.InstructorID = department.InstructorID.Value;
-        updateDepartmentCommand.Name = department.Name;
-        updateDepartmentCommand.StartDate = department.StartDate;
-        updateDepartmentCommand.RowVersion = department.RowVersion;
-
-        instructorsLookup = await InstructorService.GetLookupAsync();
-    }
-
-    private async Task FormSubmitted(EditContext editContext)
-    {
-        bool formIsValid = editContext.Validate();
-
-        if (formIsValid)
-        {
-            var result = await DepartmentService.UpdateAsync(updateDepartmentCommand);
-
-            if (result.IsSuccessStatusCode)
-            {
-                NavManager.NavigateTo("/departments");
-            }
-        }
+        await DepartmentEditViewModel.OnInitializedAsync(id);
     }
 }
