@@ -1,12 +1,6 @@
 ﻿@page "/instructors"
-@using WebUI.Shared.Instructors.Queries.GetInstructorsOverview
-@using WebUI.Shared.Courses.Queries.GetCoursesForInstructor
-@using WebUI.Shared.Students.Queries.GetStudentsForCourse
-@inject InstructorService InstructorService
-@inject CourseService CourseService
-@inject StudentService StudentService
-@inject IJSRuntime JSRuntime
-@inject NavigationManager NavManager
+@using WebUI.Client.ViewModels.Instructors
+@inject InstructorsViewModel InstructorsViewModel
 
 <h2>Instructors</h2>
 
@@ -27,12 +21,12 @@
     </thead>
     <tbody>
 
-        @if (instructorsOverview != null)
+        @if (InstructorsViewModel.InstructorsOverview != null)
         {
-            @foreach (var item in instructorsOverview.Instructors)
+            @foreach (var item in InstructorsViewModel.InstructorsOverview.Instructors)
             {
                 string selectedRow = "";
-                if (SelectedInstructorId.HasValue && item.InstructorID == SelectedInstructorId.Value)
+                if (InstructorsViewModel.SelectedInstructorId.HasValue && item.InstructorID == InstructorsViewModel.SelectedInstructorId.Value)
                 {
                     selectedRow = "bg-success";
                 }
@@ -59,10 +53,10 @@
                         }
                     </td>
                     <td>
-                        <a @onclick=@(e => SelectInstructor(item.InstructorID))>Select</a> |
+                        <a @onclick=@(e => InstructorsViewModel.SelectInstructor(item.InstructorID))>Select</a> |
                         <a href=@($"/instructors/edit/{item.InstructorID}")>Edit</a> |
                         <a href=@($"/instructors/{item.InstructorID}")>Details</a> |
-                        <a @onclick=@(e => DeleteInstructor(item.InstructorID, $"{item.FirstName} {item.LastName}"))>Delete</a>
+                        <a @onclick=@(e => InstructorsViewModel.DeleteInstructor(item.InstructorID, $"{item.FirstName} {item.LastName}"))>Delete</a>
                     </td>
                 </tr>
             }
@@ -71,7 +65,7 @@
     </tbody>
 </table>
 
-@if (courseForInstructorOverview != null)
+@if (InstructorsViewModel.CourseForInstructorOverview != null)
 {
     <h3>Courses Taught by Selected Instructor</h3>
     <table class="table">
@@ -82,16 +76,16 @@
             <th>Department</th>
         </tr>
 
-        @foreach (var item in courseForInstructorOverview.Courses)
+        @foreach (var item in InstructorsViewModel.CourseForInstructorOverview.Courses)
         {
             string selectedRow = "";
-            if (SelectedCourseId.HasValue && item.CourseID == SelectedCourseId.Value)
+            if (InstructorsViewModel.SelectedCourseId.HasValue && item.CourseID == InstructorsViewModel.SelectedCourseId.Value)
             {
                 selectedRow = "bg-success";
             }
             <tr class="@selectedRow">
                 <td>
-                    <a @onclick=@(e => SelectCourse(item.CourseID))>Select</a>
+                    <a @onclick=@(e => InstructorsViewModel.SelectCourse(item.CourseID))>Select</a>
                 </td>
                 <td>
                     @item.CourseID
@@ -108,7 +102,7 @@
     </table>
 }
 
-@if (studentsForCourse != null)
+@if (InstructorsViewModel.StudentsForCourse != null)
 {
     <h3>
         Students Enrolled in Selected Course
@@ -118,7 +112,7 @@
             <th>Name</th>
             <th>Grade</th>
         </tr>
-        @foreach (var item in studentsForCourse.Students)
+        @foreach (var item in InstructorsViewModel.StudentsForCourse.Students)
         {
             <tr>
                 <td>
@@ -134,44 +128,8 @@
 
 @code {
 
-    private InstructorsOverviewVM instructorsOverview;
-    private CoursesForInstructorOverviewVM courseForInstructorOverview;
-    private StudentsForCourseVM studentsForCourse;
-
-    private int? SelectedInstructorId;
-    private int? SelectedCourseId;
-
     protected override async Task OnInitializedAsync()
     {
-        instructorsOverview = await InstructorService.GetAllAsync();
-    }
-
-    private async Task DeleteInstructor(int instructorId, string name)
-    {
-        if (!await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete the instructor '{name}'?"))
-            return;
-
-        var result = await InstructorService.DeleteAsync(instructorId.ToString());
-
-        if (result.IsSuccessStatusCode)
-        {
-            instructorsOverview = await InstructorService.GetAllAsync();
-        }
-    }
-
-    private async Task SelectInstructor(int instructorId)
-    {
-        SelectedInstructorId = instructorId;
-        SelectedCourseId = null;
-        studentsForCourse = null;
-
-        courseForInstructorOverview = await CourseService.GetCoursesForInstructor(instructorId.ToString());
-    }
-
-    private async Task SelectCourse(int courseId)
-    {
-        SelectedCourseId = courseId;
-
-        studentsForCourse = await StudentService.GetStudentsForCourse(courseId.ToString());
+        await InstructorsViewModel.OnInitializedAsync();
     }
 }
