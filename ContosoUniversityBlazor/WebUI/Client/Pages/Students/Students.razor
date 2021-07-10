@@ -1,8 +1,6 @@
 ﻿@page "/students"
-@using WebUI.Shared.Students.Queries.GetStudentsOverview
-@inject StudentService StudentService
-@inject IJSRuntime JSRuntime
-@inject NavigationManager NavManager
+@using WebUI.Client.ViewModels.Students
+@inject StudentsViewModel StudentsViewModel
 
 <h1>Index</h1>
 
@@ -12,10 +10,9 @@
 
 <div class="form-actions no-color">
     <p>
-        <!--Find by name: <input type="text" name="SearchString" value="{{vm.currentFilter}}" />-->
-        Find by name: <input type="text" name="searchString" @bind="studentsOverview.CurrentFilter" />
-        <button type="button" class="btn btn-link" @onclick="Filter">Search</button>|
-        <button type="button" class="btn btn-link" @onclick="BackToFullList">Back to Full List</button>
+        Find by name: <input type="text" name="searchString" @bind="StudentsViewModel.StudentsOverview.CurrentFilter" />
+        <button type="button" class="btn btn-link" @onclick="StudentsViewModel.Filter">Search</button>|
+        <button type="button" class="btn btn-link" @onclick="StudentsViewModel.BackToFullList">Back to Full List</button>
     </p>
 </div>
 
@@ -23,21 +20,21 @@
     <thead>
         <tr>
             <th>
-                <a @onclick="SortByLastName">Last Name</a>
+                <a @onclick="StudentsViewModel.SortByLastName">Last Name</a>
             </th>
             <th>
                 First Name
             </th>
             <th>
-                <a @onclick="SortByEnrollmentDate">Enrollment Date</a>
+                <a @onclick="StudentsViewModel.SortByEnrollmentDate">Enrollment Date</a>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @if (studentsOverview != null)
+        @if (StudentsViewModel.StudentsOverview != null)
         {
-            @foreach (var student in studentsOverview.Students)
+            @foreach (var student in StudentsViewModel.StudentsOverview.Students)
             {
                 <tr>
                     <td>
@@ -52,7 +49,7 @@
                     <td>
                         <a href=@($"/students/edit/{student.StudentID}")>Edit</a> |
                         <a href=@($"/students/{student.StudentID}")>Details</a> |
-                        <a @onclick=@(e => DeleteStudent(student.StudentID, $"{student.FirstName} {student.LastName}"))>Delete</a>
+                        <a @onclick=@(e => StudentsViewModel.DeleteStudent(student.StudentID, $"{student.FirstName} {student.LastName}"))>Delete</a>
                     </td>
                 </tr>
             }
@@ -60,103 +57,25 @@
     </tbody>
 </table>
 
-@if (studentsOverview != null && studentsOverview.HasPreviousPage)
+@if (StudentsViewModel.StudentsOverview != null && StudentsViewModel.StudentsOverview.HasPreviousPage)
 {
-    <button type="button" @onclick="PreviousPage" class="btn btn-link">
+    <button type="button" @onclick="StudentsViewModel.PreviousPage" class="btn btn-link">
         Previous
     </button>
 }
 
-@if (studentsOverview != null && studentsOverview.HasNextPage)
+@if (StudentsViewModel.StudentsOverview != null && StudentsViewModel.StudentsOverview.HasNextPage)
 {
-    <button type="button" @onclick="NextPage" class="btn btn-link">
+    <button type="button" @onclick="StudentsViewModel.NextPage" class="btn btn-link">
         Next
     </button>
 }
 
 @code {
 
-    private StudentsOverviewVM studentsOverview = new StudentsOverviewVM();
-
     protected override async Task OnInitializedAsync()
     {
-        await GetStudents();
+        await StudentsViewModel.OnInitializedAsync();
     }
 
-    private async Task GetStudents()
-    {
-        var pageNumber = studentsOverview?.PageNumber;
-        var searchString = studentsOverview?.CurrentFilter ?? "";
-        var sortOrder = studentsOverview.CurrentSort ?? "";
-
-        studentsOverview = await StudentService.GetAllAsync(sortOrder, pageNumber, searchString);
-    }
-
-    private async Task DeleteStudent(int studentId, string name)
-    {
-        if (!await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete the student '{name}'?"))
-            return;
-
-        var result = await StudentService.DeleteAsync(studentId.ToString());
-
-        if (result.IsSuccessStatusCode)
-        {
-            await GetStudents();
-        }
-    }
-
-    private async Task PreviousPage()
-    {
-        if (studentsOverview.PageNumber > 1)
-            studentsOverview.PageNumber -= 1;
-
-        await GetStudents();
-    }
-
-    private async Task NextPage()
-    {
-        if (studentsOverview.PageNumber < studentsOverview.TotalPages)
-            studentsOverview.PageNumber += 1;
-
-        await GetStudents();
-    }
-
-    private async Task Filter()
-    {
-        await GetStudents();
-    }
-
-    private async Task BackToFullList()
-    {
-        studentsOverview.CurrentFilter = "";
-        await GetStudents();
-    }
-
-    private async Task SortByLastName()
-    {
-        if (studentsOverview.CurrentSort == "" || studentsOverview.CurrentSort == null)
-        {
-            studentsOverview.CurrentSort = "name_desc";
-        }
-        else
-        {
-            studentsOverview.CurrentSort = "";
-        }
-
-        await GetStudents();
-    }
-
-    private async Task SortByEnrollmentDate()
-    {
-        if (studentsOverview.CurrentSort == "Date")
-        {
-            studentsOverview.CurrentSort = "date_desc";
-        }
-        else
-        {
-            studentsOverview.CurrentSort = "Date";
-        }
-
-        await GetStudents();
-    }
 }
