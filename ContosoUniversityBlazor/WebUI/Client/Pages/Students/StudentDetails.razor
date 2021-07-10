@@ -1,6 +1,8 @@
 ﻿@page "/students/{id}"
 @using WebUI.Shared.Students.Queries.GetStudentDetails
 @inject StudentService StudentService
+@using WebUI.Client.ViewModels.Students
+@inject StudentDetailsViewModel StudentDetailsViewModel
 
 <h1>Details</h1>
 
@@ -12,27 +14,27 @@
             LastName
         </dt>
         <dd class="col-sm-10">
-            @if (student != null)
+            @if (StudentDetailsViewModel.Student != null)
             {
-                @student.LastName
+                @StudentDetailsViewModel.Student.LastName
             }
         </dd>
         <dt class="col-sm-2">
             FirstName
         </dt>
         <dd class="col-sm-10">
-            @if (student != null)
+            @if (StudentDetailsViewModel.Student != null)
             {
-                @student.FirstName
+                @StudentDetailsViewModel.Student.FirstName
             }
         </dd>
         <dt class="col-sm-2">
             EnrollmentDate
         </dt>
         <dd class="col-sm-10">
-            @if (student != null)
+            @if (StudentDetailsViewModel.Student != null)
             {
-                @student.EnrollmentDate.ToShortDateString()
+                @StudentDetailsViewModel.Student.EnrollmentDate.ToShortDateString()
             }
         </dd>
         <dt class="col-sm-2">
@@ -44,9 +46,9 @@
                     <th>Course Title</th>
                     <th>Grade</th>
                 </tr>
-                @if (student != null)
+                @if (StudentDetailsViewModel.Student != null)
                 {
-                    @foreach (var item in student.Enrollments)
+                    @foreach (var item in StudentDetailsViewModel.Student.Enrollments)
                     {
                         <tr>
                             <td>
@@ -64,9 +66,9 @@
     </dl>
 </div>
 <div>
-    @if (student != null)
+    @if (StudentDetailsViewModel.Student != null)
     {
-        <a href=@($"/students/edit/{student.StudentID}")>Edit</a>
+        <a href=@($"/students/edit/{StudentDetailsViewModel.Student.StudentID}")>Edit</a>
     }
     <a href="/students">Back to List</a>
 </div>
@@ -76,10 +78,8 @@
     [Parameter]
     public string id { get; set; }
 
-    private StudentDetailsVM student;
-
     protected override async Task OnInitializedAsync()
     {
-        student = await StudentService.GetAsync(id);
+        await StudentDetailsViewModel.OnInitializedAsync(id);
     }
 }
