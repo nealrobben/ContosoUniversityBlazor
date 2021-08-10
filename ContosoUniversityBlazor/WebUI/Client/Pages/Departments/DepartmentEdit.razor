@@ -1,6 +1,4 @@
 ﻿@page "/departments/edit/{id}"
-@using WebUI.Client.ViewModels.Departments
-@inject DepartmentEditViewModel DepartmentEditViewModel
 
 <h1>Edit</h1>
 
@@ -47,14 +45,3 @@
 <div>
     <a href="/departments">Back to List</a>
 </div>
-
-@code {
-
-    [Parameter]
-    public string id { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await DepartmentEditViewModel.OnInitializedAsync(id);
-    }
-}

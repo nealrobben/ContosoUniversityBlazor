@@ -1,6 +1,4 @@
 ﻿@page "/departments"
-@using WebUI.Client.ViewModels.Departments
-@inject DepartmentsViewModel DepartmentsViewModel 
 
 <h2>Departments</h2>
 
@@ -55,11 +53,3 @@
 
     </tbody>
 </table>
-
-@code {
-
-    protected override async Task OnInitializedAsync()
-    {
-        await DepartmentsViewModel.OnInitializedAsync();
-    }
-}

@@ -1,6 +1,4 @@
 ﻿@page "/departments/create"
-@using WebUI.Client.ViewModels.Departments
-@inject DepartmentCreateViewModel DepartmentCreateViewModel
 
 <h1>Create</h1>
 
@@ -47,11 +45,3 @@
 <div>
     <a href="/departments">Back to List</a>
 </div>
-
-@code {
-
-    protected override async Task OnInitializedAsync()
-    {
-        await DepartmentCreateViewModel.OnInitializedAsync();
-    }
-}
