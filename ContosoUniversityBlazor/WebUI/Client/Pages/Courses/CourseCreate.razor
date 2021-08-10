@@ -1,6 +1,4 @@
 ﻿@page "/courses/create"
-@using WebUI.Client.ViewModels.Courses
-@inject CourseCreateViewModel CourseCreateViewModel
 
 <h1>Create</h1>
 
@@ -49,11 +47,3 @@
 <div>
     <a href="/courses">Back to List</a>
 </div>
-
-@code {
-
-    protected override async Task OnInitializedAsync()
-    {
-        await CourseCreateViewModel.OnInitializedAsync();
-    }
-}

@@ -1,5 +1,4 @@
 ﻿@page "/courses"
-@inject WebUI.Client.ViewModels.Courses.CoursesViewModel CoursesViewModel
 
 <h2>Courses</h2>
 
@@ -54,11 +53,3 @@
 
     </tbody>
 </table>
-
-@code {
-
-    protected override async Task OnInitializedAsync()
-    {
-        await CoursesViewModel.Initialize();
-    }
-}
