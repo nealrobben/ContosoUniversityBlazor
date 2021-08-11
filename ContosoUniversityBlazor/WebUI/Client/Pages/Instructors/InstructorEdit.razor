@@ -1,6 +1,4 @@
 ﻿@page "/instructors/edit/{id}"
-@using WebUI.Client.ViewModels.Instructors
-@inject InstructorEditViewModel InstructorEditViewModel
 
 <h1>Edit</h1>
 
@@ -40,15 +38,3 @@
 <div>
     <a href="/instructors">Back to List</a>
 </div>
-
-@code {
-
-    [Parameter]
-    public string id { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await InstructorEditViewModel.OnInitializedAsync(id);
-    }
-
-}

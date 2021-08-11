@@ -1,7 +1,4 @@
 ﻿@page "/about"
-@using WebUI.Shared
-@using WebUI.Shared.Home.Queries.GetAboutInfo
-@inject HttpClient Http
 
 <h2>Student Body Statistics</h2>
 
@@ -31,14 +28,3 @@
     }
 
 </table>
-
-@code {
-
-    private AboutInfoVM aboutInfo;
-
-    protected override async Task OnInitializedAsync()
-    {
-        aboutInfo = await Http.GetFromJsonAsync<AboutInfoVM>("/api/about");
-    }
-
-}

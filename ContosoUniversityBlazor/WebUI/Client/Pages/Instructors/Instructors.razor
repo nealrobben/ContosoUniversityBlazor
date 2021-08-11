@@ -1,6 +1,4 @@
 ﻿@page "/instructors"
-@using WebUI.Client.ViewModels.Instructors
-@inject InstructorsViewModel InstructorsViewModel
 
 <h2>Instructors</h2>
 
@@ -124,12 +122,4 @@
             </tr>
         }
     </table>
-}
-
-@code {
-
-    protected override async Task OnInitializedAsync()
-    {
-        await InstructorsViewModel.OnInitializedAsync();
-    }
 }
