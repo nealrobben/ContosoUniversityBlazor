@@ -1,8 +1,4 @@
 ﻿@page "/students/{id}"
-@using WebUI.Shared.Students.Queries.GetStudentDetails
-@inject StudentService StudentService
-@using WebUI.Client.ViewModels.Students
-@inject StudentDetailsViewModel StudentDetailsViewModel
 
 <h1>Details</h1>
 
@@ -72,14 +68,3 @@
     }
     <a href="/students">Back to List</a>
 </div>
-
-@code {
-
-    [Parameter]
-    public string id { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await StudentDetailsViewModel.OnInitializedAsync(id);
-    }
-}

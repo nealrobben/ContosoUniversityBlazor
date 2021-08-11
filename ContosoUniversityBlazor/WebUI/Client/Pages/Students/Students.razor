@@ -1,6 +1,4 @@
 ﻿@page "/students"
-@using WebUI.Client.ViewModels.Students
-@inject StudentsViewModel StudentsViewModel
 
 <h1>Index</h1>
 
@@ -69,13 +67,4 @@
     <button type="button" @onclick="StudentsViewModel.NextPage" class="btn btn-link">
         Next
     </button>
-}
-
-@code {
-
-    protected override async Task OnInitializedAsync()
-    {
-        await StudentsViewModel.OnInitializedAsync();
-    }
-
 }

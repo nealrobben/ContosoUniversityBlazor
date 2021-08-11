@@ -9,6 +9,7 @@ namespace WebUI.Client.Pages.Instructors
         [Parameter]
         public string id { get; set; }
 
+        [Inject]
         public InstructorDetailsViewModel InstructorDetailsViewModel { get; set; }
 
         protected override async Task OnInitializedAsync()
